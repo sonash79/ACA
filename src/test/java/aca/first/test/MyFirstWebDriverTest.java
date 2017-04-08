@@ -16,6 +16,36 @@ public class MyFirstWebDriverTest {
 		 driver.quit();
 	}
 	
+//	Test Case 
+//
+//	Title: User Sign Up
+//
+//	Description: Visitor should be able to create new user.
+//
+//	Precondition: N/A
+//	Assumption: N/A
+//
+//	Test Steps:
+//	Step 1: open https://www.facebook.com/ 
+//	Step 2:
+//	Fill in below fields :
+//	- First Name -- enter valid name
+//	- Last Name -- enter valid last name
+//	- Mobile number or email - enter valid email
+//	- New Password -- enter password
+//	- Birthday data -- enter month, day, year
+//	- Select Female radio button 
+//	Step 3: click "Create Account" button
+//	Step 4: Click "Okay" button on "Account Confirmed" popup
+//	Step 5: Click account name link
+//	Expected Result:
+//	Step 1: assert that "Create Account" button is loaded
+//	Step 3: assert that "Account Confirmed" popup appeared
+//	Step 4: assert that link with text = entered name exists
+//	Step 5: assert that account name and last name exist
+
+
+	
 	@Test()
 	public void verifyLoginFields(){
 		 System.setProperty("webdriver.chrome.driver", "/Users/sonash79/Downloads/chromedriver");
