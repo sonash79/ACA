@@ -1,4 +1,5 @@
 package aca.first.test;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -58,8 +59,12 @@ public class MyFirstWebDriverTest {
 		 
 		 elementIsPresent = driver.findElements(By.id("pass")).size();
 		 if (elementIsPresent>0){
-			 System.out.println("'Password' field is present");
 		 }
+		 
+		 Assert.assertTrue(driver.findElements(By.id("email")).size()>0);
+		 Assert.assertTrue(driver.findElements(By.id("pass")).size()>0);
+		 
+	
 		 
 		 driver.close();
 		 driver.quit();
