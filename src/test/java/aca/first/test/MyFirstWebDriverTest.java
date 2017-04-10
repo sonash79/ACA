@@ -131,5 +131,86 @@ public class MyFirstWebDriverTest {
 		 driver.close();
 		 driver.quit();
 	}
-
+	
+//	Test Case 3
+//
+//	Title:  Search and Adding Friend
+//
+//	Description: Visitor should be able to send friend request.
+//
+//	Precondition: N/A
+//	Assumption: N/A
+//
+//	Test Steps:
+//	Step 1: open https://www.facebook.com/
+//	Step 2:
+//	Fill in below fields :
+//	- Email or Phone -- enter valid email
+//	- Password -- enter valid password
+//	Step 3: click "Log In" button
+//	Step 4: Click on account name and last name link (in the left corner)
+//	Step 5: Click "Friends" link
+//	Step 6: Enter "Karapet Karapetyan" into "Search for your friends" field
+//	Step 7: Enter "Karapet Karapetyan" into "Search Facebook" field
+//	Step 8: Click "Add Friend" button
+//
+//	Expected Result:
+//	Step 4: assert that "Friends" link exists
+//	Step 5: assert that "Search for your friends" search field exists
+//	Step 6: assert that "No results for: karapet karapetyan" message is reflected
+//	Step 7: assert that "People" title exists
+//	        assert that "Karapet Karapetyan" exists on the search result list
+//	Step 8: assert that "Friend Request sent" label appeared on the button
+//__________________________________________________________________________________
+	
+//	Test Case 4
+//
+//	Title:  Add Photo
+//
+//	Description: Visitor should be able to add and delete photo.
+//
+//	Precondition: N/A
+//	Assumption: N/A
+//
+//	Test Steps:
+//	Step 1: open https://www.facebook.com/
+//	Step 2:
+//	Fill in below fields :
+//	- Email or Phone -- enter valid email
+//	- Password -- enter valid password
+//	Step 3: click "Log In" button
+//	Step 4: Click on "See More" link  (left side pannel)
+//	Step 5: Click "Photos" link
+//	Step 6: Click "Create Album" button
+//	Step 7: Select photo
+//	Step 8: Input "New Album" into "Untitled Album" field
+//	        Input "Beauty" into "Say something about this album" field
+//	Step 9: click "Post" button.
+//	Step 10:  Click "Albums" tab
+//	Step 11: Click "New Album" title
+//	Step 12: click edit icon on the photo
+//	Step 13: click "Delete this photo"
+//	Step 14: click "Delete" button
+//	Step 15: click "Edit" button
+//	Step 16: click "Delete" icon
+//	Step 17: click "Delete Album"
+//	Step 18: click "Albums" tab
+//
+//
+//	Expected Result:
+//	Step 4: assert that "Friends" link exists
+//	Step 5: assert that "Create Album" button exists
+//
+//	        assert that "Photos" album is active.
+//
+//	Step 7: assert that "Create Album" title reflected
+//	Step 9: assert that "New Album" and "Beauty"  titles appeared
+//	Step 10: assert that album with "New Album" title exists
+//	Step 11: assert that photo qty = 1
+//	Step 13: assert that "Delete Photo" popup appears
+//	Step 14: assert that photo qty =0
+//	Step 15: assert that "change Date " button appears
+//	Step 16: assert that "Delete Album?" popup appears
+//	Step 18: assert that album with title "New Album" does not exist
+//
 }
