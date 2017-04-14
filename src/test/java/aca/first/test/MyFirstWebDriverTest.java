@@ -1,8 +1,12 @@
 package aca.first.test;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.io.File;
+
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -10,6 +14,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 
@@ -76,7 +84,7 @@ public class MyFirstWebDriverTest {
 
 	
 	
-	@Test()
+	@Test(enabled=false)
 	public void signInTest(){
 		 ChromeOptions options = new ChromeOptions();
 		 options.addArguments("--disable-notifications");
@@ -165,9 +173,9 @@ public class MyFirstWebDriverTest {
 	
 //	Test Case 4
 //
-//	Title:  Add Photo
+//	Title:  Add Photo to New Album and Delete
 //
-//	Description: Visitor should be able to add and delete photo.
+//	Description: Visitor should be able to create an album, add photo to it and delete album.
 //
 //	Precondition: N/A
 //	Assumption: N/A
@@ -179,38 +187,108 @@ public class MyFirstWebDriverTest {
 //	- Email or Phone -- enter valid email
 //	- Password -- enter valid password
 //	Step 3: click "Log In" button
-//	Step 4: Click on "See More" link  (left side pannel)
+//	Step 4: Click on "See More" link  (left side panel, sometimes to see photo links need to click see more )
 //	Step 5: Click "Photos" link
 //	Step 6: Click "Create Album" button
-//	Step 7: Select photo
+//	Step 7: Select photo along with adding to new album
 //	Step 8: Input "New Album" into "Untitled Album" field
-//	        Input "Beauty" into "Say something about this album" field
 //	Step 9: click "Post" button.
-//	Step 10:  Click "Albums" tab
-//	Step 11: Click "New Album" title
-//	Step 12: click edit icon on the photo
-//	Step 13: click "Delete this photo"
-//	Step 14: click "Delete" button
-//	Step 15: click "Edit" button
-//	Step 16: click "Delete" icon
-//	Step 17: click "Delete Album"
-//	Step 18: click "Albums" tab
-//
+//	Step 10: click Actions icon on the photo
+//	Step 11: click "Delete this photo"
+//	Step 12: click "Delete" button
+//	Step 13: close browser
+//	
 //
 //	Expected Result:
-//	Step 4: assert that "Friends" link exists
 //	Step 5: assert that "Create Album" button exists
-//
-//	        assert that "Photos" album is active.
-//
-//	Step 7: assert that "Create Album" title reflected
-//	Step 9: assert that "New Album" and "Beauty"  titles appeared
-//	Step 10: assert that album with "New Album" title exists
-//	Step 11: assert that photo qty = 1
-//	Step 13: assert that "Delete Photo" popup appears
-//	Step 14: assert that photo qty =0
-//	Step 15: assert that "change Date " button appears
-//	Step 16: assert that "Delete Album?" popup appears
-//	Step 18: assert that album with title "New Album" does not exist
-//
+//	Step 9: assert that "New Album"  titles appeared
+//	        assert that photo exists
+//	Step 10: assert that Delete link exists
+//	Step 11: assert that "Delete Photo" popup exists	
+//	Step 12: assert that  "No photo to show" text exists
+	
+	@Test()
+	public void addPhotoToAlbumAndDelete() throws InterruptedException{
+		 ChromeOptions options = new ChromeOptions();
+		 options.addArguments("--disable-notifications");
+		 System.setProperty("webdriver.chrome.driver", "/Users/sonash79/Downloads/chromedriver");
+		 WebDriver driver = new ChromeDriver(options);
+		 
+		 driver.get("https://www.facebook.com");
+		 
+		 WebElement email = driver.findElement(By.id("email"));
+		
+		 email.sendKeys("annakhach7@mail.ru");
+		 
+		 WebElement password = driver.findElement(By.id("pass"));
+		 password.sendKeys("annakhach7");
+		 
+		 WebElement logInBtn = driver.findElement(By.xpath("//input[@value='Log In']"));
+		 logInBtn.click();
+			
+		 WebElement seeMore = driver.findElement(By.xpath("//*[@id = 'appsNav']//a[@class='_y-c']"));
+		 seeMore.click();
+		 
+		 WebElement photos = driver.findElement(By.xpath("//a[@data-testid='left_nav_item_Photos']//div[@dir='ltr']/span"));
+		 photos.click();
+		 
+		 Thread.sleep(5000);
+		
+		 ((JavascriptExecutor)driver).executeScript("scroll(0,400)");
+		 WebElement addAlbum = driver.findElement(By.xpath("//*[text()='Create Album']//div/input"));
+		 File file = new File("photo.png");
+		 String filePath = file.getAbsolutePath();
+		 addAlbum.sendKeys(filePath);
+		 
+		 Thread.sleep(5000);		 
+		 
+		 WebElement albumTitle = driver.findElement(By.xpath("//input[@placeholder='Untitled Album']"));
+		 albumTitle.sendKeys("New Album");
+		
+		 WebElement photo = driver.findElement(By.xpath("//a[@data-tooltip-content ='Rotate this photo']"));
+		 Assert.assertTrue(photo != null);
+		
+		 Thread.sleep(5000);
+					
+		 WebElement postBtn = driver.findElement(By.xpath("//button[@data-testid='album-uploader-publish-button']/*[@data-intl-translation = 'Post']"));
+		 Assert.assertTrue(postBtn != null);
+		
+		 postBtn.click();
+		
+		 Thread.sleep(5000);
+		
+		
+		WebElement albumTitleText = driver.findElement(By.xpath("//*[@class = 'fbPhotoAlbumTitle']"));
+		Assert.assertTrue(albumTitleText.getText().equals("New Album"));
+		
+		WebElement existingPhoto = driver.findElement(By.xpath("//*[contains(@id,'pic')]//*[@class = 'uiMediaThumbImg']"));
+		Assert.assertTrue(existingPhoto != null);
+		
+		((JavascriptExecutor)driver).executeScript("scroll(0,400)");
+		WebElement actionBtn = driver.findElement(By.xpath("//a[contains(@class, 'fbPhotoAlbumOptionsGear')]/span/i"));
+		actionBtn.click();
+		
+		WebElement deleteAlbumLink = driver.findElement(By.linkText("Delete Album"));
+		deleteAlbumLink.click();
+		
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form[@action='/photos/delete_album/']//button[contains(text(),'Delete Album')]")));
+		
+		WebElement deleteAlbumBtn = driver.findElement(By.xpath("//form[@action='/photos/delete_album/']//button[contains(text(),'Delete Album')]"));
+		deleteAlbumBtn.click();
+		
+		Thread.sleep(5000);
+		
+		WebElement photoArea = driver.findElement(By.xpath("//*[contains(@id,'collection_wrapper')]/div[@class='_4-y-']"));
+				
+		Assert.assertTrue(photoArea.getText().contains("No photos to show"));
+
+		 driver.close();
+		 driver.quit();
+	}
+	
+	
+	
+	
+	
 }
