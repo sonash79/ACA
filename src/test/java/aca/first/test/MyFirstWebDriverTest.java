@@ -3,7 +3,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.util.Random;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -207,7 +209,7 @@ public class MyFirstWebDriverTest {
 //	Step 11: assert that "Delete Photo" popup exists	
 //	Step 12: assert that  "No photo to show" text exists
 	
-	@Test()
+	@Test(enabled=false)
 	public void addPhotoToAlbumAndDelete() throws InterruptedException{
 		 ChromeOptions options = new ChromeOptions();
 		 options.addArguments("--disable-notifications");
@@ -287,8 +289,137 @@ public class MyFirstWebDriverTest {
 		 driver.quit();
 	}
 	
+//	Test Case 5
+//
+//	Title:  Create An Event And Delete
+//
+//	Description: Visitor should be able to create a new event
+//
+//	Precondition: N/A
+//	Assumption: N/A
+//
+//	Test Steps:
+//	Step 1: open https://www.facebook.com/
+//	Step 2:
+//	Fill in below fields :
+//	- Email or Phone -- enter valid email
+//	- Password -- enter valid password
+//	Step 3: click "Log In" button
+//	Step 4: click "Event" link under Create
+//	Step 5: click event type dropdown toggler
+//	Step 6: click "Private event" option
+//	Step 7: click first image
+//	Step 8: Generate random sting and fill in event name
+//	Step 9: fill in event date and time
+//	Step 10: fill in description
+//	Step 11: Uncheck "Guests can invite friends" checkbox
+//  Step 12: click creat event button 	
+//	Step 13: click Edit btn
+//	Step 14: click on Delete Event radio button
+//	Step 15: click Confirm button
+//	
+//
+//	Expected Result:
+//	Step 4: assert that "Create Private Event" button exists
+//	Step 12: assert created event result and date
+//	Step 15: assert "No events coming up." exists
 	
 	
+	@Test()
+	public void addNewEventAndDelet() throws InterruptedException{
+		 ChromeOptions options = new ChromeOptions();
+		 options.addArguments("--disable-notifications");
+		 System.setProperty("webdriver.chrome.driver", "/Users/sonash79/Downloads/chromedriver");
+		 WebDriver driver = new ChromeDriver(options);
+		 
+		 driver.get("https://www.facebook.com");
+		 
+		 WebElement email = driver.findElement(By.id("email"));
+		
+		 email.sendKeys("annakhach7@mail.ru");
+		 
+		 WebElement password = driver.findElement(By.id("pass"));
+		 password.sendKeys("annakhach7");
+		 
+		 WebElement logInBtn = driver.findElement(By.xpath("//input[@value='Log In']"));
+		 logInBtn.click();
+		 
+		 WebElement createEvent = driver.findElement(By.xpath("//*[@id='createNav']//a[contains(@ajaxify,'/events/dialog/create/')]"));
+		 createEvent.click();
+		 
+		 WebDriverWait wait = new WebDriverWait(driver, 30);
+		 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'uiOverlayFooter')]/button")));
+	
+		 WebElement eventToggler = driver.findElement(By.xpath("//span[text()='Create Private Event']/ i[contains(@class,'sp_')]"));
+		 eventToggler.click();
+		 
+		 WebElement privateEvent = driver.findElement(By.xpath("//div[contains(@class,'uiContextualLayerBelowLeft')]//ul[@role='menu']//span[text()='Private Event']"));
+		 privateEvent.click();
+		 
+		 Thread.sleep(5000);
+		 WebElement eventImg = driver.findElement(By.xpath("//div[contains(@data-testid,'event_theme_item_')]/img[1]"));
+		 eventImg.click();
+		 
+		 String randomString = "abcdefghijklmnopq";
+		 RandomStringUtils randomGenerator = new RandomStringUtils();
+		 String eventTitle = randomGenerator.random(7, randomString);
+		 WebElement eventName = driver.findElement(By.xpath("//input[@data-testid='event-create-dialog-name-field']"));
+		 eventName.sendKeys(eventTitle);
+		 
+		 WebElement fromDate = driver.findElement(By.xpath("//div[@data-testid='event-create-dialog-start-time']//span/label"));
+		 fromDate.click();
+		 
+		 WebElement day = driver.findElement(By.xpath("//div[contains(@aria-labelledby,'js_')]//a/span[text()='30']"));
+		 day.click();
+		 
+		 WebElement time = driver.findElement(By.xpath("//div[@aria-live='polite']//input[@role='spinbutton']"));
+		 time.sendKeys("5");
+		 
+		 Actions builder;
+		 builder = new Actions(driver);
+		 WebElement eventDescription = driver.findElement(By.xpath("//*[@data-testid='event-create-dialog-details-field']//span[1]"));
+		 builder.moveToElement(eventDescription).click(eventDescription).sendKeys("Event description").build().perform();
+				 
+		 WebElement inviteCheckbox = driver.findElement(By.xpath("//*[@data-testid='event_guests_can_invite__checkbox']"));
+		 inviteCheckbox.click();
+		 
+		 WebElement createEventBtn = driver.findElement(By.xpath("//button[@data-testid='event-create-dialog-confirm-button' and text()='Create Private Event']"));
+		 createEventBtn.click();		 
+		 
+		 Thread.sleep(10000);
+		 
+		 WebElement eventDate = driver.findElement(By.xpath("//*[@id='event_header']//span[@aria-label='Sunday, April 30']"));
+		 Assert.assertTrue(eventDate != null);
+		 WebElement eventData = driver.findElement(By.xpath("//*[@id='event_header']//span[@aria-label='Sunday, April 30']/../div"));
+		 String eventDataText = eventData.getText();
+		 Assert.assertTrue(eventDataText.contains(eventTitle));
+		 
+		 WebElement editEventBtn = driver.findElement(By.xpath("//a[@data-testid='event-edit-button']/i"));
+		 editEventBtn.click();
+		 
+		 Thread.sleep(5000);
+		 
+		 WebElement cancelEvent = driver.findElement(By.linkText("Cancel Event"));
+		 cancelEvent.click();
+		 
+		 Thread.sleep(5000);
+		 
+		 WebElement deleteOption = driver.findElement(By.xpath("//input[@name='should_delete']/../span"));
+		 deleteOption.click();
+		 
+		 WebElement confirmDeleteBtn = driver.findElement(By.xpath("//button[text()='Confirm']"));
+		 confirmDeleteBtn.click();
+		 
+		 Thread.sleep(5000);
+		 
+		 WebElement eventArea = driver.findElement(By.xpath("//*[@id='pagelet_events_list']"));
+		 Assert.assertTrue(eventArea.getAttribute("innerHTML").contains("No events coming up."));
+		
+		 driver.close();
+		 driver.quit();
+		 
+		 
+	}	
 	
 	
 }
