@@ -325,7 +325,7 @@ public class MyFirstWebDriverTest {
 //	Step 15: assert "No events coming up." exists
 	
 	
-	@Test()
+	@Test(enabled=false)
 	public void addNewEventAndDelet() throws InterruptedException{
 		 ChromeOptions options = new ChromeOptions();
 		 options.addArguments("--disable-notifications");
@@ -421,5 +421,85 @@ public class MyFirstWebDriverTest {
 		 
 	}	
 	
+//	Test Case 6
+//
+//	Title:  Send Friend Request
+//
+//		Description: Visitor should be able to send a friend request
+//
+//		Precondition: N/A
+//		Assumption: N/A
+//
+//		Test Steps:
+//		Step 1: open https://www.facebook.com/
+//		Step 2:
+//		Fill in below fields :
+//		- Email or Phone -- enter valid email
+//		- Password -- enter valid password
+//		Step 3: click "Log In" button
+//		Step 4: click "Find Friends"
+//		Step 5: fill in "Sona Shekhyan" in search field 
+//      Step 6: click Loop button	
+//	    Step 7: click Add Friend button for Sona Shenkyan
+//	
+	
+//
+//	
+///	
+//
+//		Expected Result:
+//		Step 4: wait for search field
+//		Step 7: assert that Friend Request Send  button is active	
+		
+		
+		@Test()
+		public void sendFriendRequest() throws InterruptedException{
+			 ChromeOptions options = new ChromeOptions();
+			 options.addArguments("--disable-notifications");
+			 System.setProperty("webdriver.chrome.driver", "/Users/sonash79/Downloads/chromedriver");
+			 WebDriver driver = new ChromeDriver(options);
+			 
+			 driver.get("https://www.facebook.com");
+			 
+			 WebElement email = driver.findElement(By.id("email"));
+			
+			 email.sendKeys("annakhach7@mail.ru");
+			 
+			 WebElement password = driver.findElement(By.id("pass"));
+			 password.sendKeys("annakhach7");
+			 
+			 WebElement logInBtn = driver.findElement(By.xpath("//input[@value='Log In']"));
+			 logInBtn.click();
+			 			 
+			 WebElement findFriendLink = driver.findElement(By.linkText("Find Friends"));
+			 findFriendLink.click();
+			 			 
+			 WebDriverWait wait = new WebDriverWait(driver, 30);
+			 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder='Find friends']")));
+			 
+			 WebElement searchField = driver.findElement(By.xpath("//input[@placeholder='Find friends']"));
+			 searchField.sendKeys("Sona Shekhyan");
+			 	 
+			 WebElement loopIcon = driver.findElement(By.xpath("//button[@data-testid='facebar_search_button']"));
+			 loopIcon.click();
+			 
+			 Thread.sleep(5000);
+			 
+			 WebElement addFriendButton = driver.findElement(By.xpath("//a[contains(@href,'https://www.facebook.com/sona.shekhyan')]/../div//button[@aria-label='Add Friend']"));
+			 addFriendButton.click();
+			 
+			 WebElement friendRequestSent = driver.findElement(By.xpath("//a[contains(@href,'https://www.facebook.com/sona.shekhyan')]/../div//button[contains(@class,'FriendRequestOutgoing')]"));
+			 Assert.assertTrue(friendRequestSent != null);
+			 
+			 Actions builder = new Actions(driver);
+			 builder.moveToElement(friendRequestSent).click().perform();
+			 
+			 
+//			 driver.close();
+//			 driver.quit();
+			 
+			 
+		}	
+		
 	
 }
