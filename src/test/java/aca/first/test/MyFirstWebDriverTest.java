@@ -452,7 +452,7 @@ public class MyFirstWebDriverTest {
 //		Step 7: assert that Friend Request Send  button is active	
 		
 		
-		@Test()
+		@Test(enabled=false)
 		public void sendFriendRequest() throws InterruptedException{
 			 ChromeOptions options = new ChromeOptions();
 			 options.addArguments("--disable-notifications");
@@ -491,8 +491,12 @@ public class MyFirstWebDriverTest {
 			 WebElement friendRequestSent = driver.findElement(By.xpath("//a[contains(@href,'https://www.facebook.com/sona.shekhyan')]/../div//button[contains(@class,'FriendRequestOutgoing')]"));
 			 Assert.assertTrue(friendRequestSent != null);
 			 
+			 
 			 Actions builder = new Actions(driver);
-			 builder.moveToElement(friendRequestSent).click().perform();
+			 builder.moveToElement(friendRequestSent).build().perform();
+			 
+			 WebElement cancelRequest = driver.findElement(By.xpath("//li[contains(@class,'FriendListCancel')]"));
+			 cancelRequest.click();
 			 
 			 
 //			 driver.close();
@@ -501,5 +505,75 @@ public class MyFirstWebDriverTest {
 			 
 		}	
 		
+//		Test Case 7
+		//
+//			Title:  Send A Message
+		//
+//				Description: Visitor should be able to send a message
+		//
+//				Precondition: N/A
+//				Assumption: N/A
+		//
+//				Test Steps:
+//				Step 1: open https://www.facebook.com/
+//				Step 2:
+//				Fill in below fields :
+//				- Email or Phone -- enter valid email
+//				- Password -- enter valid password
+//				Step 3: click "Log In" button
+//				Step 4: click on "Message" link on the left 
+//				Step 5: fill in in search field "Sona Shekhyan"
+//				Step 6: click on this contact
+//				Step 7: fill in message
+//				Step 8: click Send button
+		
+//				Expected Result:
+//				
+				
+				
+				
+				@Test()
+				public void sendMessage() throws InterruptedException{
+					 ChromeOptions options = new ChromeOptions();
+					 options.addArguments("--disable-notifications");
+					 System.setProperty("webdriver.chrome.driver", "/Users/sonash79/Downloads/chromedriver");
+					 WebDriver driver = new ChromeDriver(options);
+					 
+					 driver.get("https://www.facebook.com");
+					 
+					 WebElement email = driver.findElement(By.id("email"));
+					
+					 email.sendKeys("annakhach7@mail.ru");
+					 
+					 WebElement password = driver.findElement(By.id("pass"));
+					 password.sendKeys("annakhach7");
+					 
+					 WebElement logInBtn = driver.findElement(By.xpath("//input[@value='Log In']"));
+					 logInBtn.click();
+					 
+					 WebElement messageBtn = driver.findElement(By.xpath("//a[@data-testid='left_nav_item_Messenger']"));
+					 messageBtn.click();
+					 
+					 Thread.sleep(5000);
+					 
+					 WebElement messangerSearch = driver.findElement(By.xpath("//input[@placeholder='Search Messenger']"));
+					 messangerSearch.sendKeys("Sona Shekhyan");
+					 
+					 Thread.sleep(2000);
+					 
+					 WebElement contact = driver.findElement(By.linkText("Sona Shekhyan"));
+					 contact.click();
+					 
+					 Thread.sleep(5000);
+					 
+					 WebElement textField = driver.findElement(By.xpath("//*[@aria-label='Type a message...']//span"));
+					 textField.sendKeys("Hello");
+					 
+					 
+//					 driver.close();
+//					 driver.quit();
+					 
+					 
+				}	
 	
 }
