@@ -3,6 +3,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.util.List;
 import java.util.Random;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -12,6 +13,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriver.Navigation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -532,7 +534,7 @@ public class MyFirstWebDriverTest {
 				
 				
 				
-				@Test()
+				@Test(enabled=false)
 				public void sendMessage() throws InterruptedException{
 					 ChromeOptions options = new ChromeOptions();
 					 options.addArguments("--disable-notifications");
@@ -575,5 +577,124 @@ public class MyFirstWebDriverTest {
 					 
 					 
 				}	
+				
+//				Test Case 8
+				//
+//					Title:  Like a page and save a post
+				//
+//						Description: Visitor should be able to like a page and save a post
+				//
+//						Precondition: N/A
+//						Assumption: N/A
+				//
+//						Test Steps:
+//						Step 1: open https://www.facebook.com/
+//						Step 2:
+//						Fill in below fields :
+//						- Email or Phone -- enter valid email
+//						- Password -- enter valid password
+//						Step 3: click "Log In" button
+//						Step 4: Search for "adme.ru" page using Search field
+//						Step 5: click first element with "adme.ru" link text
+//						Step 6: click "Like" button
+//						Step 7: click hover "Liked" button
+//						Step 8: click Home link 	
+//						Step 9: click on a post actions dropdown icon
+//						Step 10: click "Save Link" link	
+//						Step 11: click "See More" link
+//						Step 12: click "Saved" link				
+//						Step 13: click "Unlike this Page" link from dropdown					
+				
+				
+//						Expected Result:
+//						Step 6: assert that "Liked" button exists with "LIked" text	
+//						Step 8: assert that adme.ru posts size >0			
+//						Step 12: assert that link with adme.ru size >0				
+//						Step 13: assert that "Like" button exists with "like" text
+						
+						
+						
+				@Test()
+				public void likePageAndSavePost() throws InterruptedException{
+					 ChromeOptions options = new ChromeOptions();
+					 options.addArguments("--disable-notifications");
+					 System.setProperty("webdriver.chrome.driver", "/Users/sonash79/Downloads/chromedriver");
+					 WebDriver driver = new ChromeDriver(options);
+					 
+					 driver.get("https://www.facebook.com");
+					 
+					WebElement email = driver.findElement(By.id("email"));
+							
+					email.sendKeys("annakhach7@mail.ru");
+							 
+					WebElement password = driver.findElement(By.id("pass"));
+					password.sendKeys("annakhach7");
+					 
+					WebElement logInBtn = driver.findElement(By.xpath("//input[@value='Log In']"));
+					logInBtn.click();
+					
+					WebElement searchField = driver.findElement(By.xpath("//input[@placeholder='Find friends']"));
+     				searchField.sendKeys("adme.ru");
+     				
+     				WebElement loopIcon = driver.findElement(By.xpath("//button[@data-testid='facebar_search_button']"));
+     				loopIcon.click();
+     				 
+     				Thread.sleep(5000);
+     				
+     				    				
+     				List<WebElement> links = driver.findElements(By.linkText("AdMe.ru"));
+     				links.get(0).click();
+     				
+     				Thread.sleep(5000);
+     				
+     				WebElement likeBtn = driver.findElement(By.xpath("//button[contains(@class,'likeButton')]"));
+     				likeBtn.click();
+     				
+     				     				
+     				WebElement likedBtn = driver.findElement(By.xpath("//a[contains(@class,'likedButton')]//em"));
+     				Assert.assertTrue(likedBtn.getText().equals("Liked"));
+     				
+     				WebElement homeLink = driver.findElement(By.xpath("//*[@role='navigation']//a[text()='Home']"));
+     				homeLink.click();
+     				
+    				driver.navigate().to(driver.getCurrentUrl());     				
+     				Thread.sleep(5000);
+     				
+              		List <WebElement> posts = driver.findElements(By.xpath("//a[contains(@href,'www.adme.ru')]"));
+              		Assert.assertTrue(posts.size() > 0);
+              		
+              		List <WebElement> postOptions = driver.findElements(By.xpath("//*[@data-testid='post_chevron_button']"));
+              		postOptions.get(0).click(); 
+              		
+              		Thread.sleep(2000);
+              		
+              		WebElement saveLink = driver.findElement(By.linkText("Save link"));
+              		saveLink.click();
+              		
+              		WebElement seeMore = driver.findElement(By.xpath("//*[@id = 'appsNav']//a[@class='_y-c']"));
+              		seeMore.click();
+              		
+              		Thread.sleep(2000);
+              		
+              		WebElement savedLink = driver.findElement(By.linkText("Saved"));
+              		savedLink.click();
+              		
+              		Thread.sleep(5000);
+              		
+              		Assert.assertTrue(posts.size() > 0);
+              		
+             		
+              		
+              		
+              		
+     				
+					
+					
+							 
+//							 driver.close();
+//							 driver.quit();
+							 
+							 
+						}	
 	
 }
