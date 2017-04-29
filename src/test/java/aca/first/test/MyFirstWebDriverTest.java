@@ -2,6 +2,12 @@ package aca.first.test;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import pages.EventsPage;
+import pages.FriendsPage;
+import pages.HomePage;
+import pages.PhotosPage;
+import pages.Util;
+
 import java.io.File;
 import java.util.List;
 import java.util.Random;
@@ -26,46 +32,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 
-public class MyFirstWebDriverTest {
-	@Test(enabled=false)
-	public void myFirstTest(){
-		 System.setProperty("webdriver.chrome.driver", "/Users/sonash79/Downloads/chromedriver");
-		 WebDriver driver = new ChromeDriver();
-		 driver.get("http://aca.am");
-		 driver.close();
-		 driver.quit();
-	}
+public class MyFirstWebDriverTest extends FunctionalTest {
 	
+	HomePage homePage;
+	
+
 //	Test Case 1
-//
-//	Title: User Sign Up
-//
-//	Description: Visitor should be able to create new user.
-//
-//	Precondition: N/A
-//	Assumption: N/A
-//
-//	Test Steps:
-//	Step 1: open https://www.facebook.com/ 
-//	Step 2:
-//	Fill in below fields :
-//	- First Name -- enter valid name
-//	- Last Name -- enter valid last name
-//	- Mobile number or email - enter valid email
-//	- New Password -- enter password
-//	- Birthday data -- enter month, day, year
-//	- Select Female radio button 
-//	Step 3: click "Create Account" button
-//	Step 4: Click "Okay" button on "Account Confirmed" popup
-//	Step 5: Click account name link
-//	Expected Result:
-//	Step 1: assert that "Create Account" button is loaded
-//	Step 3: assert that "Account Confirmed" popup appeared
-//	Step 4: assert that link with text = entered name exists
-//	Step 5: assert that account name and last name exist
-
-
-//	Test Case 2
 	
 //		Title: User Sign In
 	
@@ -90,61 +62,16 @@ public class MyFirstWebDriverTest {
 	
 	@Test(enabled=false)
 	public void signInTest(){
-		 ChromeOptions options = new ChromeOptions();
-		 options.addArguments("--disable-notifications");
-		 System.setProperty("webdriver.chrome.driver", "/Users/sonash79/Downloads/chromedriver");
-		 WebDriver driver = new ChromeDriver(options);
-		 
-		 driver.get("https://www.facebook.com");
-		 
-		 WebElement email = driver.findElement(By.id("email"));
-		 Assert.assertTrue(email!=null);
-		 email.sendKeys("annakhach7@mail.ru");
-		 
-		 WebElement password = driver.findElement(By.id("pass"));
-		 password.sendKeys("annakhach7");
-		 
-		 WebElement logInBtn = driver.findElement(By.xpath("//input[@value='Log In']"));
-		 logInBtn.click();
-		 driver.navigate().to(driver.getCurrentUrl());
-	
-		 WebElement userName = driver.findElement(By.xpath("//div[@id='userNav']//div[@class='linkWrap noCount']"));
-		 Assert.assertTrue(userName.getText().equals("Anna Khachatryan"));
-		 
-		 WebElement pageContent = driver.findElement(By.xpath("//div[@id='pagelet_composer']//textarea"));
-		 Assert.assertTrue(pageContent != null);
-	 
-		 driver.close();
-		 driver.quit();
+		homePage = new HomePage(driver);
+		 	
+		 Assert.assertTrue(homePage.getUserName().equals("Lilit Asatryan"));
+		 Assert.assertTrue(homePage.pageContentExists());
+		
 	}
 	
 	
-	@Test(enabled=false)
-	public void verifyLoginFields(){
-		 System.setProperty("webdriver.chrome.driver", "/Users/sonash79/Downloads/chromedriver");
-		 WebDriver driver = new ChromeDriver();
-		 driver.get("https://www.facebook.com");
-		 int elementIsPresent = driver.findElements(By.id("email")).size();
-		 if (elementIsPresent>0){
-			 System.out.println("'Email or Phone' field is present");
-		 }
-		 
-		 elementIsPresent = driver.findElements(By.id("pass")).size();
-		 if (elementIsPresent>0){
-		 }
-		 
-		 Assert.assertTrue(driver.findElements(By.id("email")).size()>0);
-		 Assert.assertTrue(driver.findElements(By.id("pass")).size()>0);
-		 
-		 driver.findElement(By.id("email")).sendKeys("Sona");
-		 
 	
-		 
-		 driver.close();
-		 driver.quit();
-	}
-	
-//	Test Case 3
+//	Test Case 2
 //
 //	Title:  Search and Adding Friend
 //
@@ -175,7 +102,7 @@ public class MyFirstWebDriverTest {
 //	Step 8: assert that "Friend Request sent" label appeared on the button
 //__________________________________________________________________________________
 	
-//	Test Case 4
+//	Test Case 3
 //
 //	Title:  Add Photo to New Album and Delete
 //
@@ -213,85 +140,46 @@ public class MyFirstWebDriverTest {
 	
 	@Test(enabled=false)
 	public void addPhotoToAlbumAndDelete() throws InterruptedException{
-		 ChromeOptions options = new ChromeOptions();
-		 options.addArguments("--disable-notifications");
-		 System.setProperty("webdriver.chrome.driver", "/Users/sonash79/Downloads/chromedriver");
-		 WebDriver driver = new ChromeDriver(options);
+		 homePage = new HomePage(driver);
 		 
-		 driver.get("https://www.facebook.com");
+		 homePage.clickSeeMore();
 		 
-		 WebElement email = driver.findElement(By.id("email"));
-		
-		 email.sendKeys("annakhach7@mail.ru");
+		 PhotosPage photosPage = homePage.clickPhotos();
+		 		 
+		 photosPage.scrollPage("400");
 		 
-		 WebElement password = driver.findElement(By.id("pass"));
-		 password.sendKeys("annakhach7");
+		 Thread.sleep(1000);
+		 photosPage.attachPhoto("photo.png");
 		 
-		 WebElement logInBtn = driver.findElement(By.xpath("//input[@value='Log In']"));
-		 logInBtn.click();
-			
-		 WebElement seeMore = driver.findElement(By.xpath("//*[@id = 'appsNav']//a[@class='_y-c']"));
-		 seeMore.click();
+		 Thread.sleep(1000);		 
 		 
-		 WebElement photos = driver.findElement(By.xpath("//a[@data-testid='left_nav_item_Photos']//div[@dir='ltr']/span"));
-		 photos.click();
+		 photosPage.setAlbumTitle("New Album");
+		 
+		 Thread.sleep(5000);
+		 Assert.assertTrue(photosPage.photoExists());
+							
+		 photosPage.clickPostBtn();
 		 
 		 Thread.sleep(5000);
 		
-		 ((JavascriptExecutor)driver).executeScript("scroll(0,400)");
-		 WebElement addAlbum = driver.findElement(By.xpath("//*[text()='Create Album']//div/input"));
-		 File file = new File("photo.png");
-		 String filePath = file.getAbsolutePath();
-		 addAlbum.sendKeys(filePath);
-		 
-		 Thread.sleep(5000);		 
-		 
-		 WebElement albumTitle = driver.findElement(By.xpath("//input[@placeholder='Untitled Album']"));
-		 albumTitle.sendKeys("New Album");
-		
-		 WebElement photo = driver.findElement(By.xpath("//a[@data-tooltip-content ='Rotate this photo']"));
-		 Assert.assertTrue(photo != null);
-		
-		 Thread.sleep(5000);
-					
-		 WebElement postBtn = driver.findElement(By.xpath("//button[@data-testid='album-uploader-publish-button']/*[@data-intl-translation = 'Post']"));
-		 Assert.assertTrue(postBtn != null);
-		
-		 postBtn.click();
-		
-		 Thread.sleep(5000);
+		 Assert.assertTrue(photosPage.getAlbumTitleText().equals("New Album"));
 		
 		
-		WebElement albumTitleText = driver.findElement(By.xpath("//*[@class = 'fbPhotoAlbumTitle']"));
-		Assert.assertTrue(albumTitleText.getText().equals("New Album"));
+		 Assert.assertTrue(photosPage.addedPhotoExists());
 		
-		WebElement existingPhoto = driver.findElement(By.xpath("//*[contains(@id,'pic')]//*[@class = 'uiMediaThumbImg']"));
-		Assert.assertTrue(existingPhoto != null);
+		 photosPage.scrollPage("400");
+		 photosPage.clickActionBtn();
 		
-		((JavascriptExecutor)driver).executeScript("scroll(0,400)");
-		WebElement actionBtn = driver.findElement(By.xpath("//a[contains(@class, 'fbPhotoAlbumOptionsGear')]/span/i"));
-		actionBtn.click();
+		 photosPage.deleteAlbum();
 		
-		WebElement deleteAlbumLink = driver.findElement(By.linkText("Delete Album"));
-		deleteAlbumLink.click();
-		
-		WebDriverWait wait = new WebDriverWait(driver, 10);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form[@action='/photos/delete_album/']//button[contains(text(),'Delete Album')]")));
-		
-		WebElement deleteAlbumBtn = driver.findElement(By.xpath("//form[@action='/photos/delete_album/']//button[contains(text(),'Delete Album')]"));
-		deleteAlbumBtn.click();
-		
-		Thread.sleep(5000);
-		
-		WebElement photoArea = driver.findElement(By.xpath("//*[contains(@id,'collection_wrapper')]/div[@class='_4-y-']"));
-				
-		Assert.assertTrue(photoArea.getText().contains("No photos to show"));
+		 photosPage.clickDeleteAlbumBtn();
+							
+ 		 Assert.assertTrue(photosPage.getPhotoAreaText().contains("No photos to show"));
 
-		 driver.close();
-		 driver.quit();
+		
 	}
 	
-//	Test Case 5
+//	Test Case 4
 //
 //	Title:  Create An Event And Delete
 //
@@ -329,101 +217,57 @@ public class MyFirstWebDriverTest {
 	
 	@Test(enabled=false)
 	public void addNewEventAndDelet() throws InterruptedException{
-		 ChromeOptions options = new ChromeOptions();
-		 options.addArguments("--disable-notifications");
-		 System.setProperty("webdriver.chrome.driver", "/Users/sonash79/Downloads/chromedriver");
-		 WebDriver driver = new ChromeDriver(options);
+		 homePage = new HomePage(driver);
 		 
-		 driver.get("https://www.facebook.com");
+		 EventsPage eventsPage = homePage.clickCreateEvent();
 		 
-		 WebElement email = driver.findElement(By.id("email"));
+		 eventsPage.clickEventToggler();
+		 
+		 eventsPage.selectPrivateEvent();
+		 
+		 eventsPage.selectEventImg();
+		 
+		 String eventTitle = Util.generateRandomstring(7);
+		 
+		 eventsPage.setEventTitle(eventTitle);
+		 
+		 eventsPage.selectFromDate();
+		 
+		 eventsPage.selectDay();
+		 
+		 eventsPage.setTime("5");
+		 
+		 eventsPage.setEventDescription();
+		 
+		 eventsPage.checkOnInviteCheckbox();
 		
-		 email.sendKeys("annakhach7@mail.ru");
-		 
-		 WebElement password = driver.findElement(By.id("pass"));
-		 password.sendKeys("annakhach7");
-		 
-		 WebElement logInBtn = driver.findElement(By.xpath("//input[@value='Log In']"));
-		 logInBtn.click();
-		 
-		 WebElement createEvent = driver.findElement(By.xpath("//*[@id='createNav']//a[contains(@ajaxify,'/events/dialog/create/')]"));
-		 createEvent.click();
-		 
-		 WebDriverWait wait = new WebDriverWait(driver, 30);
-		 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'uiOverlayFooter')]/button")));
-	
-		 WebElement eventToggler = driver.findElement(By.xpath("//span[text()='Create Private Event']/ i[contains(@class,'sp_')]"));
-		 eventToggler.click();
-		 
-		 WebElement privateEvent = driver.findElement(By.xpath("//div[contains(@class,'uiContextualLayerBelowLeft')]//ul[@role='menu']//span[text()='Private Event']"));
-		 privateEvent.click();
-		 
-		 Thread.sleep(5000);
-		 WebElement eventImg = driver.findElement(By.xpath("//div[contains(@data-testid,'event_theme_item_')]/img[1]"));
-		 eventImg.click();
-		 
-		 String randomString = "abcdefghijklmnopq";
-		 RandomStringUtils randomGenerator = new RandomStringUtils();
-		 String eventTitle = randomGenerator.random(7, randomString);
-		 WebElement eventName = driver.findElement(By.xpath("//input[@data-testid='event-create-dialog-name-field']"));
-		 eventName.sendKeys(eventTitle);
-		 
-		 WebElement fromDate = driver.findElement(By.xpath("//div[@data-testid='event-create-dialog-start-time']//span/label"));
-		 fromDate.click();
-		 
-		 WebElement day = driver.findElement(By.xpath("//div[contains(@aria-labelledby,'js_')]//a/span[text()='30']"));
-		 day.click();
-		 
-		 WebElement time = driver.findElement(By.xpath("//div[@aria-live='polite']//input[@role='spinbutton']"));
-		 time.sendKeys("5");
-		 
-		 Actions builder;
-		 builder = new Actions(driver);
-		 WebElement eventDescription = driver.findElement(By.xpath("//*[@data-testid='event-create-dialog-details-field']//span[1]"));
-		 builder.moveToElement(eventDescription).click(eventDescription).sendKeys("Event description").build().perform();
-				 
-		 WebElement inviteCheckbox = driver.findElement(By.xpath("//*[@data-testid='event_guests_can_invite__checkbox']"));
-		 inviteCheckbox.click();
-		 
-		 WebElement createEventBtn = driver.findElement(By.xpath("//button[@data-testid='event-create-dialog-confirm-button' and text()='Create Private Event']"));
-		 createEventBtn.click();		 
+		 eventsPage.clickCreateEventBtn();
 		 
 		 Thread.sleep(10000);
+		 		 
+		 //Assert.assertEquals("30", eventsPage.getEventDate()); // Question: why can't get text ?
+		 Assert.assertTrue(eventsPage.getEventTitle().contains(eventTitle));
 		 
-		 WebElement eventDate = driver.findElement(By.xpath("//*[@id='event_header']//span[@aria-label='Sunday, April 30']"));
-		 Assert.assertTrue(eventDate != null);
-		 WebElement eventData = driver.findElement(By.xpath("//*[@id='event_header']//span[@aria-label='Sunday, April 30']/../div"));
-		 String eventDataText = eventData.getText();
-		 Assert.assertTrue(eventDataText.contains(eventTitle));
-		 
-		 WebElement editEventBtn = driver.findElement(By.xpath("//a[@data-testid='event-edit-button']/i"));
-		 editEventBtn.click();
+		 eventsPage.clickEditEventBtn();
 		 
 		 Thread.sleep(5000);
 		 
-		 WebElement cancelEvent = driver.findElement(By.linkText("Cancel Event"));
-		 cancelEvent.click();
+		 eventsPage.clickCancelEvent();
 		 
 		 Thread.sleep(5000);
 		 
-		 WebElement deleteOption = driver.findElement(By.xpath("//input[@name='should_delete']/../span"));
-		 deleteOption.click();
+		 eventsPage.selectDeleteOption();
 		 
-		 WebElement confirmDeleteBtn = driver.findElement(By.xpath("//button[text()='Confirm']"));
-		 confirmDeleteBtn.click();
+		 eventsPage.clickConfirmDeleteBtn();
 		 
 		 Thread.sleep(5000);
 		 
 		 WebElement eventArea = driver.findElement(By.xpath("//*[@id='pagelet_events_list']"));
-		 Assert.assertTrue(eventArea.getAttribute("innerHTML").contains("No events coming up."));
+		 Assert.assertTrue(eventsPage.getEventAreaInnerHtml().contains("No events coming up."));
 		
-		 driver.close();
-		 driver.quit();
-		 
-		 
 	}	
 	
-//	Test Case 6
+//	Test Case 5
 //
 //	Title:  Send Friend Request
 //
@@ -454,60 +298,28 @@ public class MyFirstWebDriverTest {
 //		Step 7: assert that Friend Request Send  button is active	
 		
 		
-		@Test(enabled=false)
+		@Test()
 		public void sendFriendRequest() throws InterruptedException{
-			 ChromeOptions options = new ChromeOptions();
-			 options.addArguments("--disable-notifications");
-			 System.setProperty("webdriver.chrome.driver", "/Users/sonash79/Downloads/chromedriver");
-			 WebDriver driver = new ChromeDriver(options);
+			 homePage= new HomePage(driver);	
 			 
-			 driver.get("https://www.facebook.com");
-			 
-			 WebElement email = driver.findElement(By.id("email"));
-			
-			 email.sendKeys("annakhach7@mail.ru");
-			 
-			 WebElement password = driver.findElement(By.id("pass"));
-			 password.sendKeys("annakhach7");
-			 
-			 WebElement logInBtn = driver.findElement(By.xpath("//input[@value='Log In']"));
-			 logInBtn.click();
+			 FriendsPage friendsPage = homePage.clickFindFriendLink();
 			 			 
-			 WebElement findFriendLink = driver.findElement(By.linkText("Find Friends"));
-			 findFriendLink.click();
-			 			 
-			 WebDriverWait wait = new WebDriverWait(driver, 30);
-			 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder='Find friends']")));
-			 
-			 WebElement searchField = driver.findElement(By.xpath("//input[@placeholder='Find friends']"));
-			 searchField.sendKeys("Sona Shekhyan");
-			 	 
-			 WebElement loopIcon = driver.findElement(By.xpath("//button[@data-testid='facebar_search_button']"));
-			 loopIcon.click();
+			 friendsPage.searchFriend("Tigran Matnishyan");
 			 
 			 Thread.sleep(5000);
 			 
-			 WebElement addFriendButton = driver.findElement(By.xpath("//a[contains(@href,'https://www.facebook.com/sona.shekhyan')]/../div//button[@aria-label='Add Friend']"));
-			 addFriendButton.click();
+			 friendsPage.clickAddFriendButton();
+			 Assert.assertEquals("Friend Request Sent", friendsPage.getButtonText());
 			 
-			 WebElement friendRequestSent = driver.findElement(By.xpath("//a[contains(@href,'https://www.facebook.com/sona.shekhyan')]/../div//button[contains(@class,'FriendRequestOutgoing')]"));
-			 Assert.assertTrue(friendRequestSent != null);
+					
+			 friendsPage.moveToFriendRequestSentButton();// Qustion : I'm mooved to this element but dropdown is not open
 			 
-			 
-			 Actions builder = new Actions(driver);
-			 builder.moveToElement(friendRequestSent).build().perform();
-			 
-			 WebElement cancelRequest = driver.findElement(By.xpath("//li[contains(@class,'FriendListCancel')]"));
-			 cancelRequest.click();
-			 
-			 
-//			 driver.close();
-//			 driver.quit();
-			 
-			 
+			 friendsPage.clickCancelRequest();
+ 
+		 			 
 		}	
 		
-//		Test Case 7
+//		Test Case 6
 		//
 //			Title:  Send A Message
 		//
@@ -578,7 +390,7 @@ public class MyFirstWebDriverTest {
 					 
 				}	
 				
-//				Test Case 8
+//				Test Case 
 				//
 //					Title:  Like a page and save a post
 				//
@@ -614,7 +426,7 @@ public class MyFirstWebDriverTest {
 						
 						
 						
-				@Test()
+				@Test(enabled=false)
 				public void likePageAndSavePost() throws InterruptedException{
 					 ChromeOptions options = new ChromeOptions();
 					 options.addArguments("--disable-notifications");
@@ -633,8 +445,12 @@ public class MyFirstWebDriverTest {
 					WebElement logInBtn = driver.findElement(By.xpath("//input[@value='Log In']"));
 					logInBtn.click();
 					
+					Thread.sleep(1000);
+					
 					WebElement searchField = driver.findElement(By.xpath("//input[@placeholder='Find friends']"));
      				searchField.sendKeys("adme.ru");
+     				
+     				Thread.sleep(1000);
      				
      				WebElement loopIcon = driver.findElement(By.xpath("//button[@data-testid='facebar_search_button']"));
      				loopIcon.click();
@@ -664,27 +480,24 @@ public class MyFirstWebDriverTest {
               		Assert.assertTrue(posts.size() > 0);
               		
               		List <WebElement> postOptions = driver.findElements(By.xpath("//*[@data-testid='post_chevron_button']"));
-              		postOptions.get(0).click(); 
+              		postOptions.get(1).click(); 
               		
               		Thread.sleep(2000);
               		
-              		WebElement saveLink = driver.findElement(By.linkText("Save link"));
+              		WebElement saveLink = driver.findElement(By.xpath("//div[@class='_4p23']"));
               		saveLink.click();
               		
-              		WebElement seeMore = driver.findElement(By.xpath("//*[@id = 'appsNav']//a[@class='_y-c']"));
-              		seeMore.click();
+              		WebElement savedPageLink = driver.findElement(By.linkText("Saved"));
+              		savedPageLink.click();
               		
-              		Thread.sleep(2000);
-              		
-              		WebElement savedLink = driver.findElement(By.linkText("Saved"));
-              		savedLink.click();
               		
               		Thread.sleep(5000);
-              		
+
+              		WebElement pageTitle = driver.findElement(By.linkText("Saved"));
+              		Assert.assertTrue(pageTitle != null);
               		Assert.assertTrue(posts.size() > 0);
-              		
+
              		
-              		
               		
               		
      				
