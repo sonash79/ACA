@@ -46,6 +46,7 @@ public class EventsPage extends Page{
 	@FindBy (xpath = "//*[@id='pagelet_events_list']")
 	private WebElement eventArea;
 	
+	
 	public EventsPage(WebDriver driver) {
 		super(driver);
 	}

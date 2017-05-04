@@ -5,7 +5,9 @@ import org.testng.annotations.Test;
 import pages.EventsPage;
 import pages.FriendsPage;
 import pages.HomePage;
+import pages.MessengerPage;
 import pages.PhotosPage;
+import pages.SavedLinksPage;
 import pages.Util;
 
 import java.io.File;
@@ -60,7 +62,7 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 
 	
 	
-	@Test(enabled=false)
+	@Test()
 	public void signInTest(){
 		homePage = new HomePage(driver);
 		 	
@@ -138,7 +140,7 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 //	Step 11: assert that "Delete Photo" popup exists	
 //	Step 12: assert that  "No photo to show" text exists
 	
-	@Test(enabled=false)
+	@Test()
 	public void addPhotoToAlbumAndDelete() throws InterruptedException{
 		 homePage = new HomePage(driver);
 		 
@@ -215,7 +217,7 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 //	Step 15: assert "No events coming up." exists
 	
 	
-	@Test(enabled=false)
+	@Test()
 	public void addNewEventAndDelet() throws InterruptedException{
 		 homePage = new HomePage(driver);
 		 
@@ -262,7 +264,6 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 		 
 		 Thread.sleep(5000);
 		 
-		 WebElement eventArea = driver.findElement(By.xpath("//*[@id='pagelet_events_list']"));
 		 Assert.assertTrue(eventsPage.getEventAreaInnerHtml().contains("No events coming up."));
 		
 	}	
@@ -304,16 +305,15 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 			 
 			 FriendsPage friendsPage = homePage.clickFindFriendLink();
 			 			 
-			 friendsPage.searchFriend("Tigran Matnishyan");
+			 friendsPage.searchInfo("Tigran Matnishyan");
 			 
 			 Thread.sleep(5000);
 			 
 			 friendsPage.clickAddFriendButton();
 			 Assert.assertEquals("Friend Request Sent", friendsPage.getButtonText());
-			 
-					
+			
 			 friendsPage.moveToFriendRequestSentButton();// Qustion : I'm mooved to this element but dropdown is not open
-			 
+			 Thread.sleep(5000);
 			 friendsPage.clickCancelRequest();
  
 		 			 
@@ -346,51 +346,31 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 				
 				
 				
-				@Test(enabled=false)
+				@Test()
 				public void sendMessage() throws InterruptedException{
-					 ChromeOptions options = new ChromeOptions();
-					 options.addArguments("--disable-notifications");
-					 System.setProperty("webdriver.chrome.driver", "/Users/sonash79/Downloads/chromedriver");
-					 WebDriver driver = new ChromeDriver(options);
-					 
-					 driver.get("https://www.facebook.com");
-					 
-					 WebElement email = driver.findElement(By.id("email"));
 					
-					 email.sendKeys("annakhach7@mail.ru");
+					 homePage = new HomePage(driver);
 					 
-					 WebElement password = driver.findElement(By.id("pass"));
-					 password.sendKeys("annakhach7");
-					 
-					 WebElement logInBtn = driver.findElement(By.xpath("//input[@value='Log In']"));
-					 logInBtn.click();
-					 
-					 WebElement messageBtn = driver.findElement(By.xpath("//a[@data-testid='left_nav_item_Messenger']"));
-					 messageBtn.click();
-					 
+					 MessengerPage messengerPage = homePage.clickMessageBtn();
+					 					 
 					 Thread.sleep(5000);
 					 
-					 WebElement messangerSearch = driver.findElement(By.xpath("//input[@placeholder='Search Messenger']"));
-					 messangerSearch.sendKeys("Sona Shekhyan");
+					 messengerPage.setSearchValue("Sona Shekhyan");
 					 
 					 Thread.sleep(2000);
 					 
-					 WebElement contact = driver.findElement(By.linkText("Sona Shekhyan"));
-					 contact.click();
+					 messengerPage.clickLink("Sona Shekhyan");
 					 
 					 Thread.sleep(5000);
 					 
-					 WebElement textField = driver.findElement(By.xpath("//*[@aria-label='Type a message...']//span"));
+					 WebElement textField = driver.findElement(By.xpath("//*[@aria-label='Type a message...']//span")); // Queston: can't fill in text in this element. <span> element where I actually enter the text appears once I start typing. 
 					 textField.sendKeys("Hello");
 					 
-					 
-//					 driver.close();
-//					 driver.quit();
 					 
 					 
 				}	
 				
-//				Test Case 
+//				Test Case 7
 				//
 //					Title:  Like a page and save a post
 				//
@@ -426,88 +406,57 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 						
 						
 						
-				@Test(enabled=false)
+				@Test()
 				public void likePageAndSavePost() throws InterruptedException{
-					 ChromeOptions options = new ChromeOptions();
-					 options.addArguments("--disable-notifications");
-					 System.setProperty("webdriver.chrome.driver", "/Users/sonash79/Downloads/chromedriver");
-					 WebDriver driver = new ChromeDriver(options);
-					 
-					 driver.get("https://www.facebook.com");
-					 
-					WebElement email = driver.findElement(By.id("email"));
-							
-					email.sendKeys("annakhach7@mail.ru");
-							 
-					WebElement password = driver.findElement(By.id("pass"));
-					password.sendKeys("annakhach7");
-					 
-					WebElement logInBtn = driver.findElement(By.xpath("//input[@value='Log In']"));
-					logInBtn.click();
+					homePage = new HomePage(driver); 
 					
 					Thread.sleep(1000);
 					
-					WebElement searchField = driver.findElement(By.xpath("//input[@placeholder='Find friends']"));
-     				searchField.sendKeys("adme.ru");
-     				
-     				Thread.sleep(1000);
-     				
-     				WebElement loopIcon = driver.findElement(By.xpath("//button[@data-testid='facebar_search_button']"));
-     				loopIcon.click();
-     				 
+					homePage.searchInfo("adme.ru");
+										     				 
      				Thread.sleep(5000);
      				
-     				    				
-     				List<WebElement> links = driver.findElements(By.linkText("AdMe.ru"));
-     				links.get(0).click();
+     				homePage.clickLinkByIndex("AdMe.ru",0);
+     				
      				
      				Thread.sleep(5000);
      				
-     				WebElement likeBtn = driver.findElement(By.xpath("//button[contains(@class,'likeButton')]"));
-     				likeBtn.click();
-     				
+     				homePage.clickLikeBtn();
      				     				
-     				WebElement likedBtn = driver.findElement(By.xpath("//a[contains(@class,'likedButton')]//em"));
-     				Assert.assertTrue(likedBtn.getText().equals("Liked"));
+     				Assert.assertTrue(homePage.getLikedBtnText().equals("Liked"));
      				
-     				WebElement homeLink = driver.findElement(By.xpath("//*[@role='navigation']//a[text()='Home']"));
-     				homeLink.click();
+     				homePage.clickHomeLink();
+     				
+     				Thread.sleep(5000);
      				
     				driver.navigate().to(driver.getCurrentUrl());     				
-     				Thread.sleep(5000);
+    				Thread.sleep(5000);
      				
-              		List <WebElement> posts = driver.findElements(By.xpath("//a[contains(@href,'www.adme.ru')]"));
-              		Assert.assertTrue(posts.size() > 0);
+             		Assert.assertTrue(homePage.getPostsQty("www.adme.ru") > 0);
               		
-              		List <WebElement> postOptions = driver.findElements(By.xpath("//*[@data-testid='post_chevron_button']"));
-              		postOptions.get(1).click(); 
-              		
+              		homePage.clickPostActions(0);
               		Thread.sleep(2000);
               		
-              		WebElement saveLink = driver.findElement(By.xpath("//div[@class='_4p23']"));
-              		saveLink.click();
-              		
-              		WebElement savedPageLink = driver.findElement(By.linkText("Saved"));
-              		savedPageLink.click();
-              		
-              		
+              		homePage.clickLinkByPartialText("Save ");
+              		SavedLinksPage savedLinks = homePage.goToSavedLinks();
               		Thread.sleep(5000);
-
-              		WebElement pageTitle = driver.findElement(By.linkText("Saved"));
-              		Assert.assertTrue(pageTitle != null);
-              		Assert.assertTrue(posts.size() > 0);
-
-             		
+              		driver.navigate().to(driver.getCurrentUrl());     	
+  		
               		
+              		Assert.assertTrue(savedLinks.titleSavedIsVizible());
+              		Assert.assertTrue(savedLinks.getPostsQty("www.adme.ru") > 0);
               		
-     				
-					
-					
-							 
-//							 driver.close();
-//							 driver.quit();
-							 
-							 
-						}	
+              		savedLinks.clickActions();
+              		Thread.sleep(5000);
+              		savedLinks = savedLinks.clickUnsaveLink();
+              		Thread.sleep(5000);
+              		driver.navigate().to(driver.getCurrentUrl());
+              		Thread.sleep(2000);
+              		
+              		Assert.assertTrue(savedLinks.pageHasText("You do not have any saved items."));
+              		
+              		//Todo: go to AdMe.ru page and unlike the page
+              		
+			   }	
 	
 }

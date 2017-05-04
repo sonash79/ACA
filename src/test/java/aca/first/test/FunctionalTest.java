@@ -18,6 +18,9 @@ public class FunctionalTest {
 	
 	//annakhach7@mail.ru
 	//annakhach7
+//	
+//	7lilas@mail.ru
+//	10janlil
 	
 	@BeforeMethod
 		public void logIn(){
@@ -30,17 +33,17 @@ public class FunctionalTest {
 		 
 		 LoginPage loginPage = new LoginPage(driver);
 		 
-		 loginPage.setEmail("7lilas@mail.ru");
-		 loginPage.setPassword("10janlil");
+		 loginPage.setEmail("meskar7@mail.ru");
+		 loginPage.setPassword("karMes71");
 		 HomePage home = loginPage.clickLoginBtn();
 		 driver.navigate().to(driver.getCurrentUrl());
 		 
 	}
 	
-//	@AfterMethod
-//		public void closeDriver(){
-//		 driver.close();
-//		 driver.quit();
-//	}
+	@AfterMethod
+		public void closeDriver(){
+		 driver.close();
+		 driver.quit();
+	}
 
 }

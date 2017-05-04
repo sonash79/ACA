@@ -27,5 +27,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="src/test/java/aca/first/test/FunctionalTest.java"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

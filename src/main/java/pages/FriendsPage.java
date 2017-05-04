@@ -18,6 +18,7 @@ public class FriendsPage extends Page {
 	@FindBy (xpath = "//li[contains(@class,'FriendListCancel')]")
 	private WebElement cancelRequest;
 	
+	
 	public FriendsPage(WebDriver driver) {
 		super(driver);
 	}
@@ -51,5 +52,7 @@ public class FriendsPage extends Page {
 	public void clickCancelRequest(){
 		cancelRequest.click();
 	}
+	
+		
 	
 }

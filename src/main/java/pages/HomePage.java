@@ -1,5 +1,7 @@
 package pages;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -23,8 +25,18 @@ public class HomePage extends Page {
 	private WebElement createEvent;
 	@FindBy (linkText = "Find Friends")
 	private WebElement findFriendLink;
-	
-	
+	@FindBy (xpath = "//a[@data-testid='left_nav_item_Messenger']")
+	private WebElement messageBtn;
+	@FindBy (xpath = "//*[@role='navigation']//a[text()='Home']")
+	private WebElement homeLink;
+	@FindBy (xpath = "//*[@data-testid='post_chevron_button']")
+	private List <WebElement> postOptions;
+	@FindBy (xpath = "//*[contains(text(),'Save']")
+	private WebElement saveLink;
+	@FindBy (linkText = "Saved")
+	private WebElement savedPageLink;
+		
+			
 	public String getUserName(){
 		return userName.getText();
 	}
@@ -51,6 +63,28 @@ public class HomePage extends Page {
 	public FriendsPage clickFindFriendLink(){
 		findFriendLink.click();
 		return new FriendsPage(driver);
+	}
+	
+	public MessengerPage clickMessageBtn(){
+		messageBtn.click();
+		return new MessengerPage(driver);
+	}
+	
+	public void clickHomeLink(){
+		homeLink.click();
+	}
+	
+	public void clickPostActions(int index){
+		postOptions.get(index).click();
+	}
+	
+	public void clickSaveLink(){
+		saveLink.click();
+	}
+	
+	public SavedLinksPage goToSavedLinks(){
+		savedPageLink.click();
+		return new SavedLinksPage(driver);
 	}
 	
 }
