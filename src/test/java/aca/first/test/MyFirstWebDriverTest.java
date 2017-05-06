@@ -3,10 +3,12 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import pages.EventsPage;
+import pages.FriendsListPage;
 import pages.FriendsPage;
 import pages.HomePage;
 import pages.MessengerPage;
 import pages.PhotosPage;
+import pages.ProfilePage;
 import pages.SavedLinksPage;
 import pages.Util;
 
@@ -63,11 +65,26 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 	
 	
 	@Test()
-	public void signInTest(){
+	public void editAboutWorkSection(){
 		homePage = new HomePage(driver);
 		 	
-		 Assert.assertTrue(homePage.getUserName().equals("Lilit Asatryan"));
-		 Assert.assertTrue(homePage.pageContentExists());
+		Assert.assertTrue(homePage.getUserName().equals("Karine Mesropyan"));
+		Assert.assertTrue(homePage.pageContentExists());
+		//homePage.enterPost("Hi All!!!");
+		ProfilePage profilePage = homePage.goToProfilePage();
+		profilePage.goToAbout();
+		profilePage.clickAddWorkPlace();
+		profilePage.setCompany("Hagusti Ashkharh");
+		profilePage.setPosition("QA Engineer");
+		profilePage.saveChanges();
+		Assert.assertTrue(profilePage.textElementExists("Hagusti Ashkharh"));
+		Assert.assertTrue(profilePage.textElementExists("QA Engineer"));
+		profilePage.clickEditMenuTrigger();
+		profilePage.clickLink("Delete");
+		profilePage.selectDeleteOption();
+		profilePage.clickSaveBtn();
+		Assert.assertTrue(!profilePage.textElementExists("Hagusti Ashkharh"));
+		Assert.assertTrue(!profilePage.textElementExists("QA Engineer"));
 		
 	}
 	
@@ -307,16 +324,21 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 			 			 
 			 friendsPage.searchInfo("Tigran Matnishyan");
 			 
-			 Thread.sleep(5000);
-			 
+			 Assert.assertEquals("Add Friend", friendsPage.getButtonText("FriendRequestAdd"));
+			 			 
 			 friendsPage.clickAddFriendButton();
-			 Assert.assertEquals("Friend Request Sent", friendsPage.getButtonText());
-			
-			 friendsPage.moveToFriendRequestSentButton();// Qustion : I'm mooved to this element but dropdown is not open
-			 Thread.sleep(5000);
-			 friendsPage.clickCancelRequest();
- 
-		 			 
+			 
+			 Assert.assertEquals("Friend Request Sent", friendsPage.getButtonText("FriendRequestOutgoing"));
+			 		
+			 friendsPage.moveToFriendRequestSentButton();
+			 			 
+			 friendsPage.clickCancelRequestLink();
+			 
+			 friendsPage.clickCancelRequestBtn();
+			 
+			 Assert.assertEquals("Add Friend", friendsPage.getButtonText("FriendRequestAdd"));
+			 
+		 	 
 		}	
 		
 //		Test Case 6
@@ -458,5 +480,26 @@ public class MyFirstWebDriverTest extends FunctionalTest {
               		//Todo: go to AdMe.ru page and unlike the page
               		
 			   }	
+				
+		
+				@Test()
+				public void createFriendsList() throws InterruptedException{
+					 homePage= new HomePage(driver);	
+					 
+					 FriendsListPage friendsList = homePage.goToFriendsList();
+					 friendsList.clickCreateList();
+					 friendsList.setListnameField("FirstList");
+					 friendsList.addFriendToList("Sona Shekhyan");
+					 friendsList.selectFriend("Sona Shekhyan");
+					 friendsList.clickCreateBtn();
+					 Assert.assertTrue(friendsList.getListNameByIndex(0).equals("FirstList"));
+					 friendsList.clickManageList();
+					 friendsList.clickDeleteListLink();
+					 friendsList.clickDeleteListBtn();
+					 // add asserthin 
+					 
+				}
+				
+				
 	
 }

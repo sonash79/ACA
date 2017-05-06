@@ -63,13 +63,15 @@ public class Page {
 	
 	public void moveToElement(WebElement element){
 		Actions builder = new Actions(driver);
-		builder.moveToElement(element).perform();
+		builder.moveToElement(element).build().perform();
 	}
 	
 	public void clickLink(String text){
 		driver.findElement(By.linkText(text)).click();
 		
 	}
+	
+	
 	
 	public void clickLinkByPartialText(String text){
 		driver.findElement(By.partialLinkText(text)).click();
@@ -93,6 +95,8 @@ public class Page {
 	public void searchInfo(String friend) {
 		enterSearchValue(friend);
 		clickLoopIcon();
+		sleep(5000);
+		
 	}
 
 	public void clickLikeBtn(){
@@ -105,6 +109,15 @@ public class Page {
 	
 	public boolean pageHasText(String text){
 		return pageBody.getText().contains(text);
+	}
+	
+	public void sleep(long sec){
+		try {
+			Thread.sleep(sec);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 

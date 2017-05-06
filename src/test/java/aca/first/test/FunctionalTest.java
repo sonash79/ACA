@@ -36,7 +36,7 @@ public class FunctionalTest {
 		 loginPage.setEmail("meskar7@mail.ru");
 		 loginPage.setPassword("karMes71");
 		 HomePage home = loginPage.clickLoginBtn();
-		 driver.navigate().to(driver.getCurrentUrl());
+		 //driver.navigate().to(driver.getCurrentUrl());
 		 
 	}
 	

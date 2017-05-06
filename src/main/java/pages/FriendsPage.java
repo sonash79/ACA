@@ -17,6 +17,10 @@ public class FriendsPage extends Page {
 	private WebElement friendRequestSent;
 	@FindBy (xpath = "//li[contains(@class,'FriendListCancel')]")
 	private WebElement cancelRequest;
+	@FindBy (xpath = "//*[text()='POSTED BY']")
+	private WebElement postedByTitle;
+	@FindBy (xpath = "//button[text()='Cancel Request']")
+	private WebElement cancelRequestBtn;
 	
 	
 	public FriendsPage(WebDriver driver) {
@@ -41,18 +45,36 @@ public class FriendsPage extends Page {
 		addFriendButton.click();
 	}
 	
-	public String getButtonText(){
-		return friendRequestSent.getText();
+	public String getButtonText(String btnTitle){
+		return driver.findElement(By.xpath("//button[contains(@class,'" + btnTitle + "')]")).getText();
+		
 	}
 	
 	public void moveToFriendRequestSentButton(){
+		moveTo();// just to make friendRequestSent element active
 		moveToElement(friendRequestSent);
+		sleep(5000);
 	}
 	
-	public void clickCancelRequest(){
+	public void clickCancelRequestLink(){
 		cancelRequest.click();
+		sleep(2000);
+		
+	}
+	
+	public void moveTo(){
+		sleep(5000);
+		moveToElement(postedByTitle);
 	}
 	
 		
+	public void clickCancelRequestBtn(){
+		cancelRequestBtn.click();
+		sleep(2000);
+	}
 	
+	public void cancelFriendRequest(){
+		clickCancelRequestLink();
+		
+	}
 }
