@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import pages.EventsPage;
 import pages.FriendsListPage;
 import pages.FriendsPage;
+import pages.GroupsPage;
 import pages.HomePage;
 import pages.MessengerPage;
 import pages.PhotosPage;
@@ -64,7 +65,7 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 
 	
 	
-	@Test()
+	@Test(enabled=false)
 	public void editAboutWorkSection(){
 		homePage = new HomePage(driver);
 		 	
@@ -85,6 +86,7 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 		profilePage.clickSaveBtn();
 		Assert.assertTrue(!profilePage.textElementExists("Hagusti Ashkharh"));
 		Assert.assertTrue(!profilePage.textElementExists("QA Engineer"));
+		
 		
 	}
 	
@@ -157,7 +159,7 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 //	Step 11: assert that "Delete Photo" popup exists	
 //	Step 12: assert that  "No photo to show" text exists
 	
-	@Test()
+	@Test(enabled=false)
 	public void addPhotoToAlbumAndDelete() throws InterruptedException{
 		 homePage = new HomePage(driver);
 		 
@@ -234,7 +236,7 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 //	Step 15: assert "No events coming up." exists
 	
 	
-	@Test()
+	@Test(enabled=false)
 	public void addNewEventAndDelet() throws InterruptedException{
 		 homePage = new HomePage(driver);
 		 
@@ -316,7 +318,7 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 //		Step 7: assert that Friend Request Send  button is active	
 		
 		
-		@Test()
+		@Test(enabled=false)
 		public void sendFriendRequest() throws InterruptedException{
 			 homePage= new HomePage(driver);	
 			 
@@ -367,30 +369,36 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 //				
 				
 				
-				
-				@Test()
-				public void sendMessage() throws InterruptedException{
+//				
+//				@Test()
+//				public void sendMessage() throws InterruptedException{
+//					
+//					 homePage = new HomePage(driver);
+//					 
+//					 homePage.clickWriteMessageIcon();
+//					 homePage.sleep(5000);
+//					 homePage.setToName("Sona Shekhyan");
+//					 
+//					 MessengerPage messengerPage = homePage.clickMessageBtn();
+//					 					 
+//					 Thread.sleep(5000);
+//					 
+//					 messengerPage.setSearchValue("Sona Shekhyan");
+//					 
+//					 Thread.sleep(2000);
+//					 
+//					 messengerPage.clickLink("Sona Shekhyan");
+//					 
+//					 Thread.sleep(5000);
+//					 
+//					 WebElement textField = driver.findElement(By.xpath("//*[@aria-label='Type a message...']//span")); // Queston: can't fill in text in this element. <span> element where I actually enter the text appears once I start typing. 
+//					 textField.sendKeys("Hello");
+					 
 					
-					 homePage = new HomePage(driver);
-					 
-					 MessengerPage messengerPage = homePage.clickMessageBtn();
-					 					 
-					 Thread.sleep(5000);
-					 
-					 messengerPage.setSearchValue("Sona Shekhyan");
-					 
-					 Thread.sleep(2000);
-					 
-					 messengerPage.clickLink("Sona Shekhyan");
-					 
-					 Thread.sleep(5000);
-					 
-					 WebElement textField = driver.findElement(By.xpath("//*[@aria-label='Type a message...']//span")); // Queston: can't fill in text in this element. <span> element where I actually enter the text appears once I start typing. 
-					 textField.sendKeys("Hello");
+					
 					 
 					 
-					 
-				}	
+//				}	
 				
 //				Test Case 7
 				//
@@ -428,7 +436,7 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 						
 						
 						
-				@Test()
+				@Test(enabled=false)
 				public void likePageAndSavePost() throws InterruptedException{
 					homePage = new HomePage(driver); 
 					
@@ -482,7 +490,7 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 			   }	
 				
 		
-				@Test()
+				@Test(enabled=false)
 				public void createFriendsList() throws InterruptedException{
 					 homePage= new HomePage(driver);	
 					 
@@ -497,6 +505,27 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 					 friendsList.clickDeleteListLink();
 					 friendsList.clickDeleteListBtn();
 					 // add asserthin 
+					 
+				}
+				
+				@Test()
+				public void createGroupAndDelete() throws InterruptedException{
+					 homePage = new HomePage(driver);
+					 GroupsPage groupsPage = homePage.goToGroups();
+					 groupsPage.createGroup();
+					 groupsPage.setGroupName("My Group");
+					 groupsPage.addGroupMember("Tigran Matnishyan");
+					 groupsPage.clickCreateBtn();
+					 Assert.assertTrue(groupsPage.pageHasText("Karine Mesropyan created the group My Group."));
+					 groupsPage.goToMembers();
+					 Assert.assertTrue(groupsPage.isGroupMember("Karine Mesropyan"));
+					 groupsPage.goToInvitedTab();
+					 Assert.assertTrue(groupsPage.isGroupInvited("Tigran  Matnishyan"));
+					 groupsPage.removeInvitation();
+					 groupsPage.clickRemoveInviteBtn();
+					 Assert.assertTrue(groupsPage.pageHasText("No results found."));
+					 groupsPage.clickJoinedDropdown();
+					 groupsPage.clickLeaveAndDeleteBtn();
 					 
 				}
 				

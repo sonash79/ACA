@@ -44,7 +44,13 @@ public class HomePage extends Page {
 	private WebElement profilePagelink;
 	@FindBy (linkText = "Friend Lists")
 	private WebElement friendsLists;
-			
+	@FindBy (xpath = "//div[@id='BuddylistPagelet']//a[@data-tooltip-content='New Message']")
+	private WebElement writeMessage;
+	@FindBy (xpath = "//input[@class='inputtext textInput']")
+	private WebElement toInputField;
+	@FindBy (linkText = "Groups")
+	private WebElement groupsLink;
+	
 	public String getUserName(){
 		return userName.getText();
 	}
@@ -111,5 +117,20 @@ public class HomePage extends Page {
 	public FriendsListPage goToFriendsList(){
 		friendsLists.click();
 		return new FriendsListPage(driver);
+	}
+	
+	public void clickWriteMessageIcon(){
+		writeMessage.click();
+	}
+	
+	public void setToName(String name){
+		moveToElement(toInputField);
+		toInputField.sendKeys(name);
+	}
+	
+	public GroupsPage goToGroups(){
+		groupsLink.click();
+		sleep(2000);
+		return new GroupsPage(driver);
 	}
 }
