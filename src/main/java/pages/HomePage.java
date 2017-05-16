@@ -20,7 +20,7 @@ public class HomePage extends Page {
 	private WebElement pageContent;
 	@FindBy (xpath = "//*[@id = 'appsNav']//a[@class='_y-c']")
 	private WebElement seeMore;
-	@FindBy (xpath = "//a[@data-testid='left_nav_item_Photos']//div[@dir='ltr']/span")
+	@FindBy (xpath = "//a[@data-testid='left_nav_item_Photos']//div[@dir='ltr']")
 	private WebElement photos;
 	@FindBy (xpath = "//*[@id='createNav']//a[contains(@ajaxify,'/events/dialog/create/')]")
 	private WebElement createEvent;
@@ -51,6 +51,8 @@ public class HomePage extends Page {
 	@FindBy (linkText = "Groups")
 	private WebElement groupsLink;
 	
+	
+	
 	public String getUserName(){
 		return userName.getText();
 	}
@@ -61,6 +63,7 @@ public class HomePage extends Page {
 
 	public void clickSeeMore(){
 		seeMore.click();
+		sleep(2000);
 	}
 	
 	public PhotosPage clickPhotos(){
@@ -84,8 +87,9 @@ public class HomePage extends Page {
 		return new MessengerPage(driver);
 	}
 	
-	public void clickHomeLink(){
+	public HomePage clickHomeLink(){
 		homeLink.click();
+		return new HomePage(driver);
 	}
 	
 	public void clickPostActions(int index){
@@ -121,6 +125,7 @@ public class HomePage extends Page {
 	
 	public void clickWriteMessageIcon(){
 		writeMessage.click();
+		sleep(5000);
 	}
 	
 	public void setToName(String name){
@@ -133,4 +138,6 @@ public class HomePage extends Page {
 		sleep(2000);
 		return new GroupsPage(driver);
 	}
+	
+	
 }

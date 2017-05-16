@@ -16,7 +16,7 @@ public class PhotosPage extends Page{
 	private WebElement albumTitle;
 	@FindBy (xpath = "//*[@class='scaledImage']/img")
 	private WebElement photo;
-	@FindBy (xpath = "//button[@data-testid='album-uploader-publish-button']/*[@data-intl-translation = 'Post']")
+	@FindBy (xpath = "//button[text()='Post']")
 	private WebElement postBtn;
 	@FindBy (xpath = "//*[@class = 'fbPhotoAlbumTitle']") 
 	private WebElement albumTitleText;
@@ -37,13 +37,16 @@ public class PhotosPage extends Page{
 	
 	public void attachPhoto(String photo){
 		 //Util.waitForElement(driver, addAlbum, 15);
+		 sleep(1000);
 		 File file = new File(photo);
 		 String filePath = file.getAbsolutePath();
 		 addAlbum.sendKeys(filePath);
+		 sleep(5000);
 	}
 	
 	public void setAlbumTitle(String albumName){
 		inputValue(albumTitle, albumName);
+		sleep(5000);
 	}
 	
 	public boolean photoExists(){
@@ -51,7 +54,7 @@ public class PhotosPage extends Page{
 	}
 	
 	public void clickPostBtn(){
-		Util.waitForElement(driver, postBtn, 15);
+		sleep(5000);
 		postBtn.click();
 	}
 	
@@ -65,7 +68,7 @@ public class PhotosPage extends Page{
 	}
 	
 	public void clickActionBtn(){
-		Util.waitForElement(driver, actionBtn, 15);
+		sleep(5000);
 		actionBtn.click();
 	}
 	

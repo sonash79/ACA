@@ -21,7 +21,13 @@ public class FriendsPage extends Page {
 	private WebElement postedByTitle;
 	@FindBy (xpath = "//button[text()='Cancel Request']")
 	private WebElement cancelRequestBtn;
-	
+	@FindBy (xpath = "//input[@placeholder='Search for your friends']")
+	private WebElement searchInFriendList;
+	@FindBy (xpath = "//div[contains(@class,'fbProfileBrowserSummaryBox')]")
+	private WebElement searchResult;
+	@FindBy (xpath = "//a[@data-testid='friends_button']/span/span")
+	private WebElement friendsButton;
+	String friendRow = "//li[contains(@class,'fbProfileBrowserListItem')]//a[text()='?']";
 	
 	public FriendsPage(WebDriver driver) {
 		super(driver);
@@ -76,5 +82,23 @@ public class FriendsPage extends Page {
 	public void cancelFriendRequest(){
 		clickCancelRequestLink();
 		
+	}
+	
+	public void searchInFriendList(String friend){
+		searchInFriendList.clear();
+		searchInFriendList.sendKeys(friend);
+		sleep(1000);
+	}
+	
+	public String getSearchResult(){
+		return searchResult.getText();
+	}
+	
+	public boolean isInFriendsList(String friend){
+		return driver.findElement(By.xpath(friendRow.replace("?",friend))).isDisplayed();
+	}
+	
+	public String getButtonText(){
+		return friendsButton.getText();
 	}
 }

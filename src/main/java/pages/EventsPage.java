@@ -11,7 +11,7 @@ import org.openqa.selenium.support.FindBy;
 public class EventsPage extends Page{
 	@FindBy (xpath = "//div[contains(@class,'uiOverlayFooter')]/button")
 	private WebElement createPrivateEvent;
-	@FindBy (xpath = "//span[text()='Create Private Event']/ i[contains(@class,'sp_')]")
+	@FindBy (xpath = "//span[text()='Create Private Event']")
 	private WebElement eventToggler;
 	@FindBy (xpath = "//div[contains(@class,'uiContextualLayerBelowLeft')]//ul[@role='menu']//span[text()='Private Event']")
 	private WebElement privateEvent;
@@ -52,7 +52,8 @@ public class EventsPage extends Page{
 	}
 	
 	public void clickEventToggler(){
-		Util.waitForElement(driver, createPrivateEvent, 15);
+		//Util.waitForElement(driver, createPrivateEvent, 15);
+		sleep(3000);
 		eventToggler.click();
 	}
 	
@@ -94,6 +95,7 @@ public class EventsPage extends Page{
 	
 	public void clickCreateEventBtn(){
 		createEventBtn.click();
+		sleep(10000);
 	}
 	
 	public String getEventDate(){
@@ -107,10 +109,12 @@ public class EventsPage extends Page{
 	}
 	
 	public void clickEditEventBtn(){
+		sleep(5000);
 		editEventBtn.click();
 	}
 	
 	public void clickCancelEvent(){
+		sleep(5000);
 		cancelEvent.click();
 	}
 	
@@ -119,6 +123,7 @@ public class EventsPage extends Page{
 	}
 	
 	public  void clickConfirmDeleteBtn(){
+		sleep(5000);
 		confirmDeleteBtn.click();
 	}
 	

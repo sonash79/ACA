@@ -68,6 +68,7 @@ public class Page {
 	
 	public void clickLink(String text){
 		driver.findElement(By.linkText(text)).click();
+		sleep(5000);
 		
 	}
 	

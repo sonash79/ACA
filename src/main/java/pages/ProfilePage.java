@@ -27,6 +27,10 @@ public class ProfilePage extends Page {
 	private WebElement deleteRadioBtn;
 	@FindBy (xpath = "//div[contains(@class, 'uiOverlayFooter')]//button[text()='Save']")
 	private WebElement clickSaveBtn;
+	@FindBy (xpath ="//a[text()='Friends']")
+	private WebElement friendsLink;
+	@FindBy (xpath="//a[text()='View Activity Log']")
+	private WebElement activityLog;
 	
 	
 	
@@ -74,6 +78,10 @@ public class ProfilePage extends Page {
 		return driver.findElement(By.xpath("//li[contains(@class,'fbEditProfileViewExperience')]//*[text()='" + text + "']")).isDisplayed();
 	}
 	
+	public boolean textElementDesNotExists(String text){
+		return !driver.findElement(By.xpath("//li[contains(@class,'fbEditProfileViewExperience')]//*[text()='" + text + "']")).isDisplayed();
+	}
+	
 	public void moveToWorkSection(){
 		moveToElement(workSection);
 	}
@@ -95,4 +103,17 @@ public class ProfilePage extends Page {
 		clickSaveBtn.click();
 		sleep(5000);
 	}
+	
+	public FriendsPage goToFriend(){
+		friendsLink.click();
+		sleep(2000);
+		return new FriendsPage(driver);
+	}
+	
+	public ActivityLogPage goToActivityLog(){
+		activityLog.click();
+		sleep(2000);
+		return new ActivityLogPage(driver);
+	}
+	
 }

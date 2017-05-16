@@ -28,6 +28,7 @@ public class LoginPage extends Page {
 	}
 	
 	public HomePage clickLoginBtn(){
+		sleep(1000);
 		loginBtn.click();
 		return new HomePage(driver);
 	}

@@ -11,7 +11,8 @@ public class MessengerPage extends Page{
 	private WebElement messangerSearch;
 	@FindBy (xpath = "//*[@aria-label='Type a message...']//span")
 	private WebElement textField;
-	
+	@FindBy (xpath = "//div[@aria-label='Type a message...']//span/span")
+	private WebElement messageField;
 	
 	
 	
@@ -21,7 +22,14 @@ public class MessengerPage extends Page{
 	}
 	
 	public void setSearchValue(String search){
+		sleep(5000);
 		messangerSearch.sendKeys(search);
+		sleep(2000);
+	}
+	
+	public void inputMessage(String message){
+		messageField.click();
+		messageField.sendKeys(message);
 	}
 	
 	

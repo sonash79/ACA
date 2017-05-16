@@ -12,15 +12,16 @@ import org.testng.annotations.BeforeMethod;
 import pages.HomePage;
 import pages.LoginPage;
 
+
 public class FunctionalTest {
 	
 	WebDriver driver;
-	
+	// users that can be used for testing purposes
 	//annakhach7@mail.ru
 	//annakhach7
-//	
-//	7lilas@mail.ru
-//	10janlil
+
+    //	7lilas@mail.ru
+    //	10janlil
 	
 	@BeforeMethod
 		public void logIn(){
@@ -35,9 +36,9 @@ public class FunctionalTest {
 		 
 		 loginPage.setEmail("meskar7@mail.ru");
 		 loginPage.setPassword("karMes71");
-		 HomePage home = loginPage.clickLoginBtn();
-		 //driver.navigate().to(driver.getCurrentUrl());
-		 
+		 HomePage home = loginPage.clickLoginBtn().clickHomeLink();
+		 home.sleep(2000);
+				 
 	}
 	
 //	@AfterMethod
