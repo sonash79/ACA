@@ -18,7 +18,7 @@ public class Page {
 	private WebElement loopIcon;
 	@FindBy (xpath = "//button[contains(@class,'likeButton')]")
 	private WebElement likeBtn;
-	@FindBy (xpath = "//a[contains(@class,'likedButton')]//span")
+	@FindBy (xpath = "//a[contains(@class,'likedButton')]/span[text()]")
 	private WebElement likedBtn;
     String post = "//a[contains(@href,'?')]";
     @FindBy (tagName = "body")
@@ -81,6 +81,7 @@ public class Page {
 	
 	public void clickLinkByIndex(String text, int index){
 		driver.findElements(By.linkText(text)).get(index).click();
+		sleep(5000);
 		
 	}
 
@@ -94,6 +95,7 @@ public class Page {
 	}
 	
 	public void searchInfo(String friend) {
+		sleep(1000);
 		enterSearchValue(friend);
 		clickLoopIcon();
 		sleep(5000);

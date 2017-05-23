@@ -282,89 +282,74 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 //			Step 4: click on "Message" link on the left 
 //			Step 5: fill in in search field "Sona Shekhyan"
 //			Step 6: click on this contact
-//			Step 7: fill in message
-//			Step 8: click Send button
+//			Step 7: generate random string and use it as a message			
+//			Step 8: fill in message
+//			Step 9: click Send button
 //		
 //			Expected Result:
+//			Step 9: assert that this random message is in the sent messages section		
 //				
-			@Test()
+			@Test(enabled=false)
 			public void sendMessage() throws InterruptedException{
 				homePage = new HomePage(driver);
 				MessengerPage messengerPage = homePage.clickMessageBtn();
 				messengerPage.setSearchValue("Sona Shekhyan");
 				messengerPage.clickLink("Sona Shekhyan");
-				messengerPage.inputMessage("Hello");
-			
-					 
+				String message = Util.generateRandomstring(10);
+				messengerPage.inputMessage(message);
+				messengerPage.clickSendBtn();
+				Assert.assertTrue(messengerPage.getAllMessages().contains(message));
+								 
 			}	
 				
-//				Test Case 7
-				//
-//					Title:  Like a page and save a post
-				//
-//						Description: Visitor should be able to like a page and save a post
-				//
-//						Precondition: N/A
-//						Assumption: N/A
-				//
-//						Test Steps:
-//						Step 1: open https://www.facebook.com/
-//						Step 2:
-//						Fill in below fields :
-//						- Email or Phone -- enter valid email
-//						- Password -- enter valid password
-//						Step 3: click "Log In" button
-//						Step 4: Search for "adme.ru" page using Search field
-//						Step 5: click first element with "adme.ru" link text
-//						Step 6: click "Like" button
-//						Step 7: click hover "Liked" button
-//						Step 8: click Home link 	
-//						Step 9: click on a post actions dropdown icon
-//						Step 10: click "Save Link" link	
-//						Step 11: click "See More" link
-//						Step 12: click "Saved" link				
-//						Step 13: click "Unlike this Page" link from dropdown					
-				
-				
-//						Expected Result:
-//						Step 6: assert that "Liked" button exists with "LIked" text	
-//						Step 8: assert that adme.ru posts size >0			
-//						Step 12: assert that link with adme.ru size >0				
-//						Step 13: assert that "Like" button exists with "like" text
+//			Test Case 6
+//
+//			Title:  Like a page and save a post
+//
+//				Description: Visitor should be able to like a page and save a post
+//
+//				Precondition: N/A
+//				Assumption: N/A
+//
+//				Test Steps:
+//				Step 1: open https://www.facebook.com/
+//				Step 2:
+//				Fill in below fields :
+//					- Email or Phone -- enter valid email
+//					- Password -- enter valid password
+//				Step 3: click "Log In" button
+//				Step 4: Search for "adme.ru" page using Search field
+//				Step 5: click first element with "adme.ru" link text
+//				Step 6: click "Like" button
+//				Step 7: click hover "Liked" button
+//				Step 8: click Home link 	
+//				Step 9: click on a post actions dropdown icon
+//				Step 10: click "Save Link" link	
+//				Step 11: click "See More" link
+//				Step 12: click "Saved" link				
+//				Step 13: click "Unlike this Page" link from dropdown					
+//				
+//				
+//				Expected Result:
+//				Step 6: assert that "Liked" button exists with "LIked" text	
+//				Step 8: assert that adme.ru posts size >0			
+//				Step 12: assert that link with adme.ru size >0				
+//				Step 13: assert that "Like" button exists with "like" text
 						
 						
 						
-				@Test(enabled=false)
+				@Test()
 				public void likePageAndSavePost() throws InterruptedException{
 					homePage = new HomePage(driver); 
-					
-					Thread.sleep(1000);
-					
 					homePage.searchInfo("adme.ru");
-										     				 
-     				Thread.sleep(5000);
-     				
-     				homePage.clickLinkByIndex("AdMe.ru",0);
-     				
-     				
-     				Thread.sleep(5000);
-     				
+					homePage.clickLinkByIndex("AdMe.ru",0);
      				homePage.clickLikeBtn();
-     				     				
      				Assert.assertTrue(homePage.getLikedBtnText().equals("Liked"));
-     				
      				homePage.clickHomeLink();
-     				
-     				Thread.sleep(5000);
-     				
-    				driver.navigate().to(driver.getCurrentUrl());     				
-    				Thread.sleep(5000);
-     				
-             		Assert.assertTrue(homePage.getPostsQty("www.adme.ru") > 0);
-              		
+     				driver.navigate().to(driver.getCurrentUrl());     				
+    				Thread.sleep(10000);
+     				Assert.assertTrue(homePage.getPostsQty("www.adme.ru") > 0);
               		homePage.clickPostActions(0);
-              		Thread.sleep(2000);
-              		
               		homePage.clickLinkByPartialText("Save ");
               		SavedLinksPage savedLinks = homePage.goToSavedLinks();
               		Thread.sleep(5000);

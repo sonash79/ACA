@@ -89,11 +89,14 @@ public class HomePage extends Page {
 	
 	public HomePage clickHomeLink(){
 		homeLink.click();
+		sleep(5000);
 		return new HomePage(driver);
+		
 	}
 	
 	public void clickPostActions(int index){
 		postOptions.get(index).click();
+		sleep(2000);
 	}
 	
 	public void clickSaveLink(){

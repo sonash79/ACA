@@ -11,8 +11,13 @@ public class MessengerPage extends Page{
 	private WebElement messangerSearch;
 	@FindBy (xpath = "//*[@aria-label='Type a message...']//span")
 	private WebElement textField;
-	@FindBy (xpath = "//div[@aria-label='Type a message...']//span/span")
+	@FindBy (xpath = "//div[@aria-label='Type a message...']")
 	private WebElement messageField;
+	@FindBy (xpath="//div[@aria-label='New message']//a[text()='Send']")
+	private WebElement sendBtn;
+	@FindBy (xpath="//div[@aria-label='Messages']")
+	private WebElement messages;
+	
 	
 	
 	
@@ -32,6 +37,12 @@ public class MessengerPage extends Page{
 		messageField.sendKeys(message);
 	}
 	
+	public void clickSendBtn(){
+		sendBtn.click();
+	}
 	
+	public String getAllMessages(){
+		return messages.getText();
+	}
 
 }
