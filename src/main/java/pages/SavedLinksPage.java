@@ -27,6 +27,7 @@ public class SavedLinksPage extends Page{
 	
 	public SavedLinksPage clickUnsaveLink(){
 		unsaveLink.click();
+		sleep(5000);
 		return new SavedLinksPage(driver);
 	}
 

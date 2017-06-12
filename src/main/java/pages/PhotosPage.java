@@ -12,7 +12,7 @@ public class PhotosPage extends Page{
 	
 	@FindBy (xpath = "//*[text()='Create Album']//div/input")
 	private WebElement addAlbum;
-	@FindBy (xpath = "//input[@placeholder='Untitled Album']")
+	@FindBy (xpath = "//input[@placeholder='Album name']")
 	private WebElement albumTitle;
 	@FindBy (xpath = "//*[@class='scaledImage']/img")
 	private WebElement photo;
@@ -20,7 +20,7 @@ public class PhotosPage extends Page{
 	private WebElement postBtn;
 	@FindBy (xpath = "//*[@class = 'fbPhotoAlbumTitle']") 
 	private WebElement albumTitleText;
-	@FindBy (xpath = "//*[contains(@id,'pic')]//*[@class = 'uiMediaThumbImg']")
+	@FindBy (xpath = "//div[contains(@class,'fbPhotoCurationControlWrapper')]/a/img")
 	private WebElement existingPhoto;
 	@FindBy (xpath = "//a[contains(@class, 'fbPhotoAlbumOptionsGear')]/span/i")
 	private WebElement actionBtn;

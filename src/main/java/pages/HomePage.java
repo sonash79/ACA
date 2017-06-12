@@ -50,6 +50,10 @@ public class HomePage extends Page {
 	private WebElement toInputField;
 	@FindBy (linkText = "Groups")
 	private WebElement groupsLink;
+	@FindBy (xpath="//button[contains(@class,'PageLikeButton')]")
+	private WebElement likedPageBtn;
+	@FindBy (xpath = "//*[text()='POSTED BY']")
+	private WebElement postedByTitle;
 	
 	
 	
@@ -105,6 +109,7 @@ public class HomePage extends Page {
 	
 	public SavedLinksPage goToSavedLinks(){
 		savedPageLink.click();
+		sleep(5000);
 		return new SavedLinksPage(driver);
 	}
 	
@@ -141,6 +146,18 @@ public class HomePage extends Page {
 		sleep(2000);
 		return new GroupsPage(driver);
 	}
+	
+	public void moveTo(){
+		sleep(5000);
+		moveToElement(postedByTitle);
+	}
+	
+	public void moveToLikedPageButton(){
+		moveTo();// just to make friendRequestSent element active
+		moveToElement(likedPageBtn);
+		sleep(5000);
+	}
+	
 	
 	
 }

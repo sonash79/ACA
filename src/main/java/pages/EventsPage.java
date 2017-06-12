@@ -33,7 +33,7 @@ public class EventsPage extends Page{
 	private WebElement createEventBtn;
 	@FindBy (xpath = "//*[@id='event_header']//span[@aria-label='Sunday, April 30']/span")
 	private List<WebElement> eventDate;
-	@FindBy (xpath = "//*[@id='event_header']//span[@aria-label='Sunday, April 30']/../div")
+	@FindBy (xpath = "//h1[@data-testid='event-permalink-event-name']")
 	private WebElement eventData;
 	@FindBy (xpath = "//a[@data-testid='event-edit-button']/i")
 	private WebElement editEventBtn;
@@ -43,7 +43,7 @@ public class EventsPage extends Page{
 	private WebElement deleteOption;
 	@FindBy (xpath = "//button[text()='Confirm']")
 	private WebElement confirmDeleteBtn;
-	@FindBy (xpath = "//*[@id='pagelet_events_list']")
+	@FindBy (xpath = "//*[@id='events_dashboard_upcoming_events']")
 	private WebElement eventArea;
 	
 	
@@ -53,7 +53,7 @@ public class EventsPage extends Page{
 	
 	public void clickEventToggler(){
 		//Util.waitForElement(driver, createPrivateEvent, 15);
-		sleep(3000);
+		sleep(5000);
 		eventToggler.click();
 	}
 	
@@ -119,6 +119,7 @@ public class EventsPage extends Page{
 	}
 	
 	public void selectDeleteOption(){
+		sleep(3000);
 		deleteOption.click();
 	}
 	
@@ -128,6 +129,7 @@ public class EventsPage extends Page{
 	}
 	
 	public String getEventAreaInnerHtml(){
+		sleep(5000);
 		return eventArea.getAttribute("innerHTML");
 	}
 }

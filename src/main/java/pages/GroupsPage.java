@@ -29,8 +29,12 @@ public class GroupsPage extends Page{
 	private WebElement joinedDropdown;
 	@FindBy(linkText="Leave Group")
 	private WebElement leaveGroupLink;
+	@FindBy(xpath = "//button[text()='Leave Group']")
+	private WebElement leaveGroupBtn;
 	@FindBy(xpath = "//button[text()='Leave and Delete']")
 	private WebElement leaveAndDeleteBtn;
+	
+	String groupLink = "//span[text()='?']";
 	String searchResult = "//ul[contains(@id,'typeahead_list')]/li/span[text()='?']";
 	String groupMember = "//div[contains(@data-testid,'GroupMember_')]//a[text()='?']";
 	String groupInvited = "//div[contains(@data-testid,'GroupUserInvite_')]//a[text()='?']";
@@ -100,8 +104,17 @@ public class GroupsPage extends Page{
 		
 	}
 	
+	public void clickLeaveGroupBtn(){
+		leaveGroupBtn.click();
+		sleep(5000);
+	}
+	
 	public void clickLeaveAndDeleteBtn(){
 		leaveAndDeleteBtn.click();
 		sleep(5000);
+	}
+	
+	public void clickMyGroupLink(String group){
+		driver.findElement(By.xpath(groupLink.replace("?", group))).click();
 	}
 }

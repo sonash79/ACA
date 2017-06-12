@@ -23,6 +23,9 @@ public class FunctionalTest {
     //	7lilas@mail.ru
     //	10janlil
 	
+	//meskar7@mail.ru
+	//karMes71
+	
 	@BeforeMethod
 		public void logIn(){
 		 ChromeOptions options = new ChromeOptions();

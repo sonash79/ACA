@@ -12,7 +12,7 @@ public class Page {
 	
 	protected WebDriver driver;
 
-	@FindBy (xpath = "//input[@placeholder='Find friends']")
+	@FindBy (xpath = "//input[@placeholder='Search Facebook']")
 	private WebElement searchField;
 	@FindBy (xpath = "//button[@data-testid='facebar_search_button']")
 	private WebElement loopIcon;
@@ -86,7 +86,9 @@ public class Page {
 	}
 
 	public void enterSearchValue(String friend){
-		Util.waitForElement(driver, searchField, 30);
+		//Util.waitForElement(driver, searchField, 30);
+		searchField.click();
+		sleep(3000);
 		searchField.sendKeys(friend);
 	}
 	
@@ -95,7 +97,7 @@ public class Page {
 	}
 	
 	public void searchInfo(String friend) {
-		sleep(1000);
+		sleep(5000);
 		enterSearchValue(friend);
 		clickLoopIcon();
 		sleep(5000);

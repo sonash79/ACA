@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class FriendsPage extends Page {
-	@FindBy (xpath = "//input[@placeholder='Find friends']")
+	@FindBy (xpath = "//input[@placeholder='Search Facebook']")
 	private WebElement searchField;
 	@FindBy (xpath = "//button[@data-testid='facebar_search_button']")
 	private WebElement loopIcon;
