@@ -43,7 +43,8 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 	HomePage homePage;
 	
 
-	@Test(enabled=false)
+	//@Test(enabled=false)
+	@Test
 	public void editAboutWorkSection(){
 		homePage = new HomePage(driver);
 		Assert.assertTrue(homePage.getUserName().equals("Karine Mesropyan"));
@@ -65,7 +66,8 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 			
 	}
 	
-	@Test(enabled=false)
+	//@Test(enabled=false)
+	@Test
 	public void addPhotoToAlbumAndDelete() throws InterruptedException{
 		 homePage = new HomePage(driver);
 		 homePage.clickSeeMore();
@@ -85,7 +87,8 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 	}
 	
 
-	@Test(enabled=false)
+	//@Test(enabled=false)
+	@Test
 	public void addNewEventAndDelet() throws InterruptedException{
 		 homePage = new HomePage(driver);
 		 EventsPage eventsPage = homePage.clickCreateEvent();
@@ -110,7 +113,8 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 	}	
 	
 	
-	@Test(enabled=false)
+	//@Test(enabled=false)
+	@Test
 	public void sendFriendRequestAndCancel() throws InterruptedException{
 		 homePage= new HomePage(driver);	
 		 FriendsPage friendsPage = homePage.clickFindFriendLink();
@@ -125,7 +129,8 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 				 	 
 	}	
 		
-	@Test(enabled=false)
+	//@Test(enabled=false)
+	@Test
 	public void sendMessage() throws InterruptedException{
 		homePage = new HomePage(driver);
 		MessengerPage messengerPage = homePage.clickMessageBtn();
@@ -139,7 +144,8 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 	}	
 				
 	
-	@Test(enabled=false)
+	//@Test(enabled=false)
+	@Test
 	public void likePageSavePostUnsaveAndUnlikePage() throws InterruptedException{
 		homePage = new HomePage(driver); 
 		homePage.searchInfo("adme.ru");
@@ -168,7 +174,8 @@ public class MyFirstWebDriverTest extends FunctionalTest {
   
 	}	
 	
-	@Test(enabled=false)
+	//@Test(enabled=false)
+	@Test
 	public void createFriendsListAndDelete() throws InterruptedException{
 		 homePage= new HomePage(driver);	
 		 FriendsListPage friendsList = homePage.goToFriendsList();
@@ -184,55 +191,56 @@ public class MyFirstWebDriverTest extends FunctionalTest {
 		 Assert.assertFalse(friendsList.pageHasText("FirstList"));
 	}
 				
-	@Test(enabled=false)
+	//@Test(enabled=false)
+	@Test
 	public void createGroupAndDelete() throws InterruptedException{
 		 homePage = new HomePage(driver);
 		 GroupsPage groupsPage = homePage.goToGroups();
-		 groupsPage.scrollPage("400");
+		 groupsPage.clickLink("Groups");
+		 //groupsPage.scrollPage("400");
 		 groupsPage.createGroup();
-	     groupsPage.setGroupName("Sona Group");
+	     groupsPage.setGroupName("Karine Group");
 		 groupsPage.addGroupMember("Sona Shekhyan");
 		 groupsPage.clickCreateBtn();
-		 Assert.assertTrue(groupsPage.pageHasText("Karine Mesropyan created the group Sona Group."));
+		 Assert.assertTrue(groupsPage.pageHasText("Karine Mesropyan created the group Karine Group."));
 		 groupsPage.goToMembers();
 		 Assert.assertTrue(groupsPage.isGroupMember("Karine Mesropyan"));
 		 Assert.assertTrue(groupsPage.isGroupMember("Sona Shekhyan"));
 		 groupsPage.clickJoinedDropdown();
 		 groupsPage.clickLeaveGroupBtn();
-		 groupsPage.clickLink("Home");
+		 Assert.assertFalse(groupsPage.pageHasText("Manage Group"));
 		 
 		 
 	}
 				
-				@Test(enabled=false)
-	
-				public void searchOnFriendsPage() throws InterruptedException{
-					 homePage = new HomePage(driver);
-					 
-					 ProfilePage profilePage = homePage.goToProfilePage();
-					 FriendsPage friendsPage = profilePage.goToFriend();
-					 friendsPage.searchInFriendList("Armen");
-					 Assert.assertEquals("No results for: Armen", friendsPage.getSearchResult());
-					 friendsPage.searchInFriendList("Sona Shekhyan");
-					 Assert.assertEquals("Results for: Sona Shekhyan", friendsPage.getSearchResult());
-					 Assert.assertTrue(friendsPage.isInFriendsList("Sona Shekhyan"));
-					 Assert.assertEquals("Friends", friendsPage.getButtonText());
-				}
+	//@Test(enabled=false)
+	@Test
+	public void searchOnFriendsPage() throws InterruptedException{
+		homePage = new HomePage(driver);
+		ProfilePage profilePage = homePage.goToProfilePage();
+		FriendsPage friendsPage = profilePage.goToFriend();
+		friendsPage.searchInFriendList("Armen");
+		Assert.assertEquals("No results for: Armen", friendsPage.getSearchResult());
+		friendsPage.searchInFriendList("Sona Shekhyan");
+		Assert.assertEquals("Results for: Sona Shekhyan", friendsPage.getSearchResult());
+	    Assert.assertTrue(friendsPage.isInFriendsList("Sona Shekhyan"));
+		Assert.assertEquals("Friends", friendsPage.getButtonText());
+	}
 				
-				//@Test(enabled=false)
-				@Test
-				public void searchInActivityLog() throws InterruptedException{
-					 homePage = new HomePage(driver);
-					 ProfilePage profilePage = homePage.goToProfilePage();
-					 ActivityLogPage activityLog = profilePage.goToActivityLog();
-					 activityLog.searchActivity("Hello World");
-					 activityLog.clickSearchBtn();
-					 Assert.assertEquals("Hello World", activityLog.getSearchResult());
-					 activityLog.clickLikesLink();
-					 Assert.assertTrue(activityLog.isLinkPresent("likes","Little Home Kitchen- Armenia"));
-					 activityLog.clickFriendsLink();
-					 Assert.assertTrue(activityLog.isLinkPresent("became friends with ","Sona Shekhyan"));
-				}
+	//@Test(enabled=false)
+	@Test
+	public void searchInActivityLog() throws InterruptedException{
+		homePage = new HomePage(driver);
+		ProfilePage profilePage = homePage.goToProfilePage();
+		ActivityLogPage activityLog = profilePage.goToActivityLog();
+		activityLog.searchActivity("Hello World");
+		activityLog.clickSearchBtn();
+		Assert.assertEquals("Hello World", activityLog.getSearchResult());
+		activityLog.clickLikesLink();
+		Assert.assertTrue(activityLog.isLinkPresent("likes","Little Home Kitchen- Armenia"));
+		activityLog.clickFriendsLink();
+		Assert.assertTrue(activityLog.isLinkPresent("became friends with ","Sona Shekhyan"));
+	}
 				
 				
 	
